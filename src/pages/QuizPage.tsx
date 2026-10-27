@@ -8,7 +8,6 @@ import { checkAnswer, calculateAccuracy } from '../lib/scoring';
 import { playSuccessSound, playIncorrectSound } from '../lib/sound';
 import { QuestionViewer } from '../components/quiz/QuestionViewer';
 import { QuizTimer } from '../components/quiz/QuizTimer';
-import { ProgressBar } from '../components/common/ProgressBar';
 import { Modal } from '../components/common/Modal';
 import { ActiveQuizSession, QuizAttemptRecord, QuizMode } from '../types/progress';
 import { QuestionDifficulty } from '../types/question';
@@ -140,15 +139,6 @@ export const QuizPage: React.FC = () => {
   const handleSubmitAnswer = () => {
     if (isSubmitted || !currentAnswer) return;
 
-    const evaluation = checkAnswer(currentQuestion, currentAnswer);
-    const soundEnabled = progress.settings?.soundEnabled ?? true;
-
-    if (evaluation.isCorrect) {
-      playSuccessSound(soundEnabled);
-    } else {
-      playIncorrectSound(soundEnabled);
-    }
-
     const updatedSubmissions = {
       ...session.submissionStates,
       [currentQuestionId]: true,
@@ -157,6 +147,39 @@ export const QuizPage: React.FC = () => {
     // If previously marked skipped, clear it
     const updatedSkipped = { ...session.skippedStates };
     delete updatedSkipped[currentQuestionId];
+
+    // In Exam Mode: no immediate sound/feedback, save answer and advance immediately
+    if (session.mode === 'exam') {
+      if (session.currentIndex < session.questionIds.length - 1) {
+        const updated = {
+          ...session,
+          submissionStates: updatedSubmissions,
+          skippedStates: updatedSkipped,
+          currentIndex: session.currentIndex + 1,
+          timeSpentSeconds: timeSpent,
+        };
+        setSession(updated);
+        setActiveSession(updated);
+      } else {
+        handleFinishQuiz({
+          ...session,
+          submissionStates: updatedSubmissions,
+          skippedStates: updatedSkipped,
+          timeSpentSeconds: timeSpent,
+        });
+      }
+      return;
+    }
+
+    // In Learn / Practice / Challenge mode: provide audio & visual feedback
+    const evaluation = checkAnswer(currentQuestion, currentAnswer);
+    const soundEnabled = progress.settings?.soundEnabled ?? true;
+
+    if (evaluation.isCorrect) {
+      playSuccessSound(soundEnabled);
+    } else {
+      playIncorrectSound(soundEnabled);
+    }
 
     const updated = {
       ...session,
@@ -302,9 +325,6 @@ export const QuizPage: React.FC = () => {
     handleFinishQuiz(session);
   };
 
-  const progressPercentage = Math.round(
-    ((session.currentIndex + 1) / session.questionIds.length) * 100
-  );
 
   const isInMistakes = !!progress.mistakes[currentQuestionId]?.isMarkedForRevision;
   const toggleMistake = () => {
@@ -313,39 +333,25 @@ export const QuizPage: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto space-y-4 animate-fade-in">
-      {/* Top Progress & Timer Bar */}
-      <div className="flex items-center justify-between gap-4 bg-white dark:bg-[#1F1E1C] border border-[#E8E5DF] dark:border-[#2C2A26] rounded-xl px-5 py-3 transition-colors">
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs sm:text-sm font-semibold text-[#242424] dark:text-[#FAF9F6]">
-            Question {session.currentIndex + 1}
-            <span className="text-[#77736D] font-normal"> of {session.questionIds.length}</span>
-          </span>
-          <span className="text-xs text-[#77736D] font-normal hidden sm:inline">
-            ({progressPercentage}% completed)
-          </span>
+      {/* Subtle Timer Banner if active */}
+      {session.timeRemainingSeconds !== undefined && (
+        <div className="flex items-center justify-between px-4 py-2 bg-[#FAF0EB] dark:bg-[#282623] border border-[#EBC0AF] dark:border-[#3D3A35] rounded-xl text-xs">
+          <span className="font-medium text-[#C96B45]">Timed Session</span>
+          <QuizTimer
+            initialSeconds={session.timeRemainingSeconds}
+            onTimeUp={handleTimeUp}
+          />
         </div>
+      )}
 
-        <div className="w-1/3 max-w-[160px] hidden sm:block">
-          <ProgressBar value={progressPercentage} size="sm" variant="brand" />
-        </div>
-
-        <div className="flex items-center gap-3">
-          {session.timeRemainingSeconds !== undefined && (
-            <QuizTimer
-              initialSeconds={session.timeRemainingSeconds}
-              onTimeUp={handleTimeUp}
-            />
-          )}
-        </div>
-      </div>
-
-      {/* Main Interactive Question Viewer with question key for state isolation */}
+      {/* Main Interactive Question Viewer (Centerpiece) */}
       <QuestionViewer
         key={currentQuestionId}
         question={currentQuestion}
         currentIndex={session.currentIndex}
         totalQuestions={session.questionIds.length}
         topicTitle={topicObj?.title || 'Python Mastery'}
+        mode={session.mode}
         displayedOptions={session.displayedOptions?.[currentQuestionId]}
         selectedAnswer={currentAnswer}
         isSubmitted={isSubmitted}

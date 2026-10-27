@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Lightbulb,
   CheckCircle2,
@@ -6,11 +6,13 @@ import {
   SkipForward,
   ChevronLeft,
   LogOut,
-  Send,
+  ArrowRight,
   CheckSquare,
-  Square
+  Square,
+  Send
 } from 'lucide-react';
 import { Question, QuestionOption } from '../../types/question';
+import { QuizMode } from '../../types/progress';
 import { AnswerEvaluation, checkAnswer } from '../../lib/scoring';
 import { CodeBlock } from '../common/CodeBlock';
 import { Button } from '../common/Button';
@@ -22,6 +24,7 @@ export interface QuestionViewerProps {
   currentIndex: number;
   totalQuestions: number;
   topicTitle?: string;
+  mode?: QuizMode;
   displayedOptions?: QuestionOption[];
   selectedAnswer?: string | string[];
   isSubmitted: boolean;
@@ -45,6 +48,7 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
   currentIndex,
   totalQuestions,
   topicTitle = 'Python Mastery',
+  mode = 'practice',
   displayedOptions,
   selectedAnswer,
   isSubmitted,
@@ -62,12 +66,15 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
   isInMistakes = false,
   onToggleMistake,
 }) => {
-  // Hint visibility is strictly scoped to this question
-  const [showHint, setShowHint] = useState(hintUsed);
+  const isExamMode = mode === 'exam';
+  const effectiveHintsEnabled = hintsEnabled && !isExamMode;
+
+  // Hint visibility is strictly scoped to this question and resets on question change
+  const [showHint, setShowHint] = useState(hintUsed && effectiveHintsEnabled);
 
   useEffect(() => {
-    setShowHint(hintUsed);
-  }, [question.id, hintUsed]);
+    setShowHint(hintUsed && effectiveHintsEnabled);
+  }, [question.id, hintUsed, effectiveHintsEnabled]);
 
   const isMultipleAnswer = question.questionType === 'multiple_choice';
 
@@ -84,8 +91,8 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
     });
   }, [displayedOptions, question.options]);
 
-  const handleToggleMultiple = (optionId: string) => {
-    if (isSubmitted) return;
+  const handleToggleMultiple = useCallback((optionId: string) => {
+    if (isSubmitted && !isExamMode) return;
     const currentList = Array.isArray(selectedAnswer) ? [...selectedAnswer] : [];
     const index = currentList.indexOf(optionId);
     if (index > -1) {
@@ -94,40 +101,99 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
       currentList.push(optionId);
     }
     onSelectAnswer(currentList);
-  };
+  }, [isSubmitted, isExamMode, selectedAnswer, onSelectAnswer]);
 
-  const handleSingleSelect = (optionId: string) => {
-    if (isSubmitted) return;
+  const handleSingleSelect = useCallback((optionId: string) => {
+    if (isSubmitted && !isExamMode) return;
     onSelectAnswer(optionId);
-  };
+  }, [isSubmitted, isExamMode, onSelectAnswer]);
 
-  const handleRevealHint = () => {
+  const handleRevealHint = useCallback(() => {
+    if (!effectiveHintsEnabled || !question.hint) return;
     setShowHint(true);
     onUseHint();
-  };
-
-  // Evaluate answer if submitted
-  const evaluation: AnswerEvaluation | null = isSubmitted
-    ? checkAnswer(question, selectedAnswer)
-    : null;
+  }, [effectiveHintsEnabled, question.hint, onUseHint]);
 
   const hasSelection = isMultipleAnswer
     ? Array.isArray(selectedAnswer) && selectedAnswer.length > 0
     : !!selectedAnswer;
 
+  // Keyboard navigation support: 1-4, A-D, Enter, H
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is focusing an input
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
+        return;
+      }
+
+      const key = e.key.toLowerCase();
+
+      // Number keys 1-4 or letters a-d
+      const keyIndexMap: Record<string, number> = {
+        '1': 0, 'a': 0,
+        '2': 1, 'b': 1,
+        '3': 2, 'c': 2,
+        '4': 3, 'd': 3,
+      };
+
+      if (key in keyIndexMap && (!isSubmitted || isExamMode)) {
+        const targetIndex = keyIndexMap[key];
+        if (targetIndex < optionsList.length) {
+          e.preventDefault();
+          const targetOpt = optionsList[targetIndex];
+          if (isMultipleAnswer) {
+            handleToggleMultiple(targetOpt.id);
+          } else {
+            handleSingleSelect(targetOpt.id);
+          }
+        }
+      } else if (key === 'h' && effectiveHintsEnabled && question.hint && !showHint) {
+        e.preventDefault();
+        handleRevealHint();
+      } else if (key === 'enter') {
+        e.preventDefault();
+        if (isSubmitted && !isExamMode) {
+          onNextQuestion();
+        } else if (hasSelection) {
+          onSubmitAnswer();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [
+    isSubmitted,
+    isExamMode,
+    optionsList,
+    isMultipleAnswer,
+    handleToggleMultiple,
+    handleSingleSelect,
+    effectiveHintsEnabled,
+    question.hint,
+    showHint,
+    handleRevealHint,
+    hasSelection,
+    onSubmitAnswer,
+    onNextQuestion
+  ]);
+
+  // Evaluate answer if submitted (unless in Exam mode)
+  const evaluation: AnswerEvaluation | null = (isSubmitted && !isExamMode)
+    ? checkAnswer(question, selectedAnswer)
+    : null;
+
   return (
-    <div className="bg-white dark:bg-[#1F1E1C] border border-[#E8E5DF] dark:border-[#2C2A26] rounded-xl p-5 sm:p-8 transition-colors">
-      {/* Header bar: Topic, Difficulty, and Actions */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-[#E8E5DF] dark:border-[#2C2A26]">
-        <div className="flex items-center gap-2">
+    <div className="bg-white dark:bg-[#1F1E1C] border border-[#E8E5DF] dark:border-[#2C2A26] rounded-2xl p-5 sm:p-8 transition-colors shadow-sm">
+      {/* 1. Header: Topic, Question Index, Difficulty, and Hint/Exit actions */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#E8E5DF] dark:border-[#2C2A26]">
+        <div className="flex items-center gap-2.5">
           <Badge variant="primary" size="sm">
             {topicTitle}
           </Badge>
-          {isSkipped && (
-            <Badge variant="warning" size="sm">
-              Skipped
-            </Badge>
-          )}
+          <span className="text-xs text-[#77736D] dark:text-[#A8A49D] font-mono">
+            Question {currentIndex + 1} of {totalQuestions}
+          </span>
           <Badge
             variant={
               question.difficulty === 'beginner'
@@ -140,23 +206,24 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
           >
             {question.difficulty}
           </Badge>
-          {question.subtopic && (
-            <span className="text-xs text-[#77736D] dark:text-[#A8A49D] font-normal hidden sm:inline">
-              • {question.subtopic}
-            </span>
+          {isSkipped && (
+            <Badge variant="warning" size="sm">
+              Skipped
+            </Badge>
           )}
         </div>
 
         <div className="flex items-center gap-2">
-          {hintsEnabled && question.hint && (
+          {effectiveHintsEnabled && question.hint && (
             <Button
               size="sm"
               variant={showHint ? 'secondary' : 'ghost'}
               onClick={handleRevealHint}
               icon={<Lightbulb className={`w-3.5 h-3.5 ${showHint ? 'text-[#C96B45]' : 'text-[#77736D]'}`} />}
               disabled={showHint}
+              title="Reveal question hint (H)"
             >
-              <span className="text-xs">{showHint ? 'Hint Revealed' : 'Show Hint'}</span>
+              <span className="text-xs">{showHint ? 'Hint Revealed' : 'Hint (H)'}</span>
             </Button>
           )}
 
@@ -172,9 +239,17 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
         </div>
       </div>
 
-      {/* Scoped Hint Callout */}
-      {showHint && question.hint && (
-        <div className="mt-4 p-3.5 rounded-lg bg-[#FAF0EB] dark:bg-[#282623] border border-[#EBC0AF] dark:border-[#3D3A35] text-xs sm:text-sm text-[#242424] dark:text-[#E8E5DF] flex items-start gap-2.5 animate-fade-in">
+      {/* Subtle Progress Line */}
+      <div className="w-full bg-[#E8E5DF] dark:bg-[#2C2A26] h-1 rounded-full mt-4 overflow-hidden">
+        <div
+          className="bg-[#C96B45] h-full transition-all duration-300 rounded-full"
+          style={{ width: `${((currentIndex + 1) / totalQuestions) * 100}%` }}
+        />
+      </div>
+
+      {/* Scoped Hint Display */}
+      {showHint && question.hint && !isExamMode && (
+        <div className="mt-4 p-3.5 rounded-xl bg-[#FAF0EB] dark:bg-[#282623] border border-[#EBC0AF] dark:border-[#3D3A35] text-xs sm:text-sm text-[#242424] dark:text-[#E8E5DF] flex items-start gap-2.5 animate-fade-in">
           <Lightbulb className="w-4 h-4 text-[#C96B45] flex-shrink-0 mt-0.5" />
           <div className="leading-relaxed">
             <span className="font-semibold text-[#C96B45]">Hint: </span>
@@ -185,11 +260,11 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
 
       {/* Question Prompt */}
       <div className="mt-6">
-        <h3 className="text-base sm:text-lg font-semibold text-[#242424] dark:text-[#FAF9F6] leading-snug">
+        <h3 className="text-base sm:text-lg font-medium text-[#242424] dark:text-[#FAF9F6] leading-relaxed">
           {question.questionText}
         </h3>
 
-        {/* Code Snippet */}
+        {/* Python Code Snippet presentation */}
         {question.codeSnippet && (
           <div className="mt-4">
             <CodeBlock code={question.codeSnippet} language="python" showLineNumbers={true} />
@@ -197,7 +272,7 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
         )}
       </div>
 
-      {/* Answer Options Area */}
+      {/* Four Answer Options */}
       <div className="mt-6 space-y-2.5">
         {isMultipleAnswer && (
           <p className="text-xs text-[#77736D] dark:text-[#A8A49D] font-normal flex items-center gap-1.5 mb-2">
@@ -208,18 +283,18 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
 
         {optionsList.map((option, idx) => {
           const letter = String.fromCharCode(65 + idx); // A, B, C, D
+          const numKey = idx + 1; // 1, 2, 3, 4
 
-          // Check if option is selected by ID or text fallback
           const isSelected = isMultipleAnswer
             ? Array.isArray(selectedAnswer) && (selectedAnswer.includes(option.id) || selectedAnswer.includes(option.text))
             : selectedAnswer === option.id || selectedAnswer === option.text;
 
-          // Checking status after submit
+          // Default styling
           let optionStyle = 'border-[#E8E5DF] dark:border-[#2C2A26] hover:border-[#D8D4CC] dark:hover:border-[#3D3A35] bg-white dark:bg-[#1F1E1C] text-[#242424] dark:text-[#E8E5DF]';
           let letterStyle = 'bg-[#F3F1EC] text-[#77736D] dark:bg-[#282623] dark:text-[#A8A49D]';
           let StatusIcon = null;
 
-          if (isSubmitted) {
+          if (isSubmitted && !isExamMode) {
             const isCorrectOption = isMultipleAnswer
               ? (Array.isArray(question.correctOptionId) && question.correctOptionId.includes(option.id)) ||
                 (Array.isArray(question.correctAnswer) && (question.correctAnswer.includes(option.id) || question.correctAnswer.includes(option.text)))
@@ -234,7 +309,7 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
               letterStyle = 'bg-[#B94B45] text-white';
               StatusIcon = <XCircle className="w-4 h-4 text-[#B94B45] flex-shrink-0" />;
             } else {
-              optionStyle = 'border-[#E8E5DF]/50 dark:border-[#2C2A26]/50 opacity-50 bg-white dark:bg-[#1F1E1C] text-[#77736D]';
+              optionStyle = 'border-[#E8E5DF]/50 dark:border-[#2C2A26]/50 opacity-45 bg-white dark:bg-[#1F1E1C] text-[#77736D]';
             }
           } else if (isSelected) {
             optionStyle = 'border-[#C96B45] bg-[#FAF0EB] dark:bg-[#282623] text-[#242424] dark:text-[#FAF9F6] ring-1 ring-[#C96B45]';
@@ -252,7 +327,7 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
                 }
               }}
               role="button"
-              tabIndex={isSubmitted ? -1 : 0}
+              tabIndex={isSubmitted && !isExamMode ? -1 : 0}
               onKeyDown={(e) => {
                 if (e.key === ' ' || e.key === 'Enter') {
                   e.preventDefault();
@@ -260,8 +335,8 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
                   else handleSingleSelect(option.id);
                 }
               }}
-              className={`w-full flex items-center justify-between p-3.5 sm:p-4 rounded-lg border text-left transition-colors min-h-[52px] ${
-                isSubmitted ? 'cursor-default' : 'cursor-pointer'
+              className={`w-full flex items-center justify-between p-3.5 sm:p-4 rounded-xl border text-left transition-colors min-h-[52px] ${
+                isSubmitted && !isExamMode ? 'cursor-default' : 'cursor-pointer'
               } ${optionStyle}`}
             >
               <div className="flex items-center gap-3 min-w-0">
@@ -274,7 +349,12 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
               </div>
 
               <div className="flex items-center gap-2 pl-3 flex-shrink-0">
-                {isMultipleAnswer && !isSubmitted && (
+                {!isSubmitted && (
+                  <span className="hidden sm:inline-block text-[10px] font-mono text-[#A8A49D] px-1.5 py-0.5 rounded bg-[#FAF9F6] dark:bg-[#282623] border border-[#E8E5DF] dark:border-[#3D3A35]">
+                    {numKey}
+                  </span>
+                )}
+                {isMultipleAnswer && (!isSubmitted || isExamMode) && (
                   isSelected ? (
                     <CheckSquare className="w-4 h-4 text-[#C96B45]" />
                   ) : (
@@ -288,8 +368,8 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
         })}
       </div>
 
-      {/* Feedback Panel after submit */}
-      {isSubmitted && evaluation && (
+      {/* Immediate Educational Feedback (Disabled in Exam mode) */}
+      {!isExamMode && isSubmitted && evaluation && (
         <div className="mt-6">
           <FeedbackCard
             question={question}
@@ -303,8 +383,8 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
         </div>
       )}
 
-      {/* Action Controls Bar */}
-      {!isSubmitted && (
+      {/* Bottom Action Controls: Skip & Submit / Continue */}
+      {(!isSubmitted || isExamMode) && (
         <div className="mt-8 pt-5 border-t border-[#E8E5DF] dark:border-[#2C2A26] flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             {allowPrevious && onPreviousQuestion && currentIndex > 0 && (
@@ -335,10 +415,14 @@ export const QuestionViewer: React.FC<QuestionViewerProps> = ({
               size="md"
               onClick={onSubmitAnswer}
               disabled={!hasSelection}
-              icon={<Send className="w-4 h-4" />}
+              icon={isExamMode ? <ArrowRight className="w-4 h-4" /> : <Send className="w-4 h-4" />}
               iconPosition="right"
             >
-              Submit Answer
+              {isExamMode
+                ? currentIndex === totalQuestions - 1
+                  ? 'Submit Exam'
+                  : 'Save & Next'
+                : 'Submit Answer'}
             </Button>
           </div>
         </div>

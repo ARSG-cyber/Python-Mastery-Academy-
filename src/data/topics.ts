@@ -275,7 +275,7 @@ export const TOPICS: Topic[] = [
       'Use the wildcard _ for default cases',
       'Apply if guards to case conditions'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Shuffle'
   },
 
@@ -459,7 +459,7 @@ export const TOPICS: Topic[] = [
       'Provide custom sort keys with lambdas',
       'Know when to prefer def over lambda for clarity'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Zap'
   },
   {
@@ -474,7 +474,7 @@ export const TOPICS: Topic[] = [
       'Modify global variables with global cautiously',
       'Understand nonlocal in nested closures'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Eye'
   },
   {
@@ -489,7 +489,7 @@ export const TOPICS: Topic[] = [
       'Combine zip() and enumerate() for clean loops',
       'Differentiate built-in functions from object methods'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Tool'
   },
   {
@@ -504,7 +504,7 @@ export const TOPICS: Topic[] = [
       'Understand import styles and avoid circular imports',
       'Use the __name__ == "__main__" entry point pattern'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Package'
   },
   {
@@ -536,7 +536,7 @@ export const TOPICS: Topic[] = [
       'Understand the else and finally execution lifecycle',
       'Create custom exception classes derived from Exception'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'AlertTriangle'
   },
   {
@@ -551,7 +551,7 @@ export const TOPICS: Topic[] = [
       'Differentiate read(), readline(), and readlines()',
       'Handle file encodings (UTF-8) properly'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'FileText'
   },
   {
@@ -566,7 +566,7 @@ export const TOPICS: Topic[] = [
       'Explain OOP principles with real-world analogies',
       'Know when OOP is appropriate vs procedural style'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Box'
   },
   {
@@ -581,7 +581,7 @@ export const TOPICS: Topic[] = [
       'Understand the self reference to instances',
       'Distinguish instance variables from class variables'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Component'
   },
   {
@@ -596,7 +596,7 @@ export const TOPICS: Topic[] = [
       'Call parent initializers cleanly using super().__init__()',
       'Understand Python\'s C3 linearization MRO'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Network'
   },
   {
@@ -611,7 +611,7 @@ export const TOPICS: Topic[] = [
       'Produce values lazily using yield generators',
       'Compare memory usage of lists vs generator expressions'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'RefreshCw'
   },
   {
@@ -626,7 +626,7 @@ export const TOPICS: Topic[] = [
       'Preserve function metadata with @functools.wraps',
       'Write decorators for logging, timing, and validation'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Wand2'
   },
   {
@@ -641,7 +641,7 @@ export const TOPICS: Topic[] = [
       'Implement __enter__ and __exit__ on custom classes',
       'Create quick context managers using contextlib generator syntax'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Key'
   },
   {
@@ -688,7 +688,7 @@ export const TOPICS: Topic[] = [
       'Use modern Python 3.10+ union types (X | Y)',
       'Run static type checking to catch bugs before execution'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'CheckSquare'
   },
   {
@@ -703,7 +703,7 @@ export const TOPICS: Topic[] = [
       'Configure frozen (immutable) dataclasses',
       'Use field(default_factory=...) for mutable defaults'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Database'
   },
   {
@@ -748,7 +748,7 @@ export const TOPICS: Topic[] = [
       'Serialize Python data to formatted JSON with json.dumps()',
       'Read and write JSON files directly with load() and dump()'
     ],
-    isAvailable: false,
+    isAvailable: true,
     iconName: 'Braces'
   },
   {

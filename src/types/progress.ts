@@ -31,13 +31,16 @@ export interface QuizAttemptRecord {
 }
 
 export type QuizMode =
-  | 'quick' // 10
-  | 'standard' // 20
-  | 'deep' // up to 50
-  | 'challenge' // difficult only
-  | 'revision' // mistakes only
-  | 'mixed' // several topics
-  | 'topic' // 1 selected topic
+  | 'learn' // Guided immediate feedback with hints
+  | 'practice' // Topic & count focused practice
+  | 'exam' // Silent assessment: no feedback/hints until completion
+  | 'challenge' // Difficult & edge case questions
+  | 'quick' // 10 questions quick session
+  | 'standard' // 20 questions standard
+  | 'deep' // In-depth session
+  | 'revision' // Mistakes revision
+  | 'mixed' // Mixed topics
+  | 'topic' // Single topic
   | 'untimed'
   | 'timed';
 

@@ -134,7 +134,7 @@ export const LearnPage: React.FC = () => {
                                 ? 'success'
                                 : topic.difficulty === 'intermediate'
                                 ? 'warning'
-                                : 'purple'
+                                : 'default'
                             }
                             size="sm"
                           >

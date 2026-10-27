@@ -53,6 +53,40 @@ describe('Question Bank Verification', () => {
     expect(stringQuestions.length).toBeGreaterThanOrEqual(60);
   });
 
+  it('contains questions covering Python functions, parameters, and mutable defaults', () => {
+    const mutableDefaultQ = ALL_QUESTIONS.find(q => q.id === 'fn-001');
+    expect(mutableDefaultQ).toBeDefined();
+    expect(mutableDefaultQ?.topicId).toBe('parameters-arguments');
+    expect(mutableDefaultQ?.correctAnswer).toContain('[1]');
+  });
+
+  it('contains questions covering OOP, classes, self, and dataclasses', () => {
+    const oopQ = ALL_QUESTIONS.find(q => q.id === 'oop-001');
+    expect(oopQ).toBeDefined();
+    expect(oopQ?.topicId).toBe('classes-objects');
+
+    const dataclassQ = ALL_QUESTIONS.find(q => q.id === 'oop-006');
+    expect(dataclassQ).toBeDefined();
+  });
+
+  it('contains questions covering exception handling and file context managers', () => {
+    const excQ = ALL_QUESTIONS.find(q => q.id === 'exc-001');
+    expect(excQ).toBeDefined();
+    expect(excQ?.correctAnswer).toBe('else finally');
+
+    const fileQ = ALL_QUESTIONS.find(q => q.id === 'exc-004');
+    expect(fileQ).toBeDefined();
+  });
+
+  it('contains questions covering modern Python features including match-case and type hints', () => {
+    const matchCaseQ = ALL_QUESTIONS.find(q => q.id === 'adv-007');
+    expect(matchCaseQ).toBeDefined();
+    expect(matchCaseQ?.topicId).toBe('match-case');
+
+    const typeHintsQ = ALL_QUESTIONS.find(q => q.id === 'adv-006');
+    expect(typeHintsQ).toBeDefined();
+  });
+
   describe('V2 Question Bank Quality & Schema Integrity', () => {
     it('verifies that every question has a valid, non-empty hint', () => {
       for (const q of ALL_QUESTIONS) {

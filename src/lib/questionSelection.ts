@@ -93,6 +93,15 @@ export function selectQuestions(options: QuestionSelectionOptions): QuestionSele
     targetCount = count;
   } else {
     switch (mode) {
+      case 'learn':
+        targetCount = 10;
+        break;
+      case 'practice':
+        targetCount = 15;
+        break;
+      case 'exam':
+        targetCount = 20;
+        break;
       case 'quick':
         targetCount = 10;
         break;

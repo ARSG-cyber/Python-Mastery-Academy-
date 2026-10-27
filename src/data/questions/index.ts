@@ -2,6 +2,10 @@ import { Question, QuestionOption, RawQuestion, QuestionValidationResult } from 
 import { STRING_QUESTIONS } from './stringMethods';
 import { FUNDAMENTALS_QUESTIONS } from './pythonFundamentals';
 import { CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS } from './controlFlowAndCollections';
+import { FUNCTIONS_AND_MODULES_QUESTIONS } from './functionsAndModules';
+import { OOP_AND_CLASSES_QUESTIONS } from './oopAndClasses';
+import { EXCEPTIONS_AND_FILES_QUESTIONS } from './exceptionsAndFiles';
+import { ADVANCED_AND_PRACTICAL_QUESTIONS } from './advancedAndPractical';
 
 /**
  * Normalizes a question to ensure stable option IDs and correctOptionId are consistently defined.
@@ -49,7 +53,11 @@ export function normalizeQuestion(raw: RawQuestion): Question {
 const RAW_QUESTIONS: RawQuestion[] = [
   ...STRING_QUESTIONS,
   ...FUNDAMENTALS_QUESTIONS,
-  ...CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS
+  ...CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS,
+  ...FUNCTIONS_AND_MODULES_QUESTIONS,
+  ...OOP_AND_CLASSES_QUESTIONS,
+  ...EXCEPTIONS_AND_FILES_QUESTIONS,
+  ...ADVANCED_AND_PRACTICAL_QUESTIONS,
 ];
 
 export const ALL_QUESTIONS: Question[] = RAW_QUESTIONS.map(normalizeQuestion);

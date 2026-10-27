@@ -162,4 +162,20 @@ describe('Scoring and Evaluation Engine', () => {
     expect(formatTime(65)).toBe('01:05');
     expect(formatTime(600)).toBe('10:00');
   });
+
+  it('evaluates exam-mode batch submissions consistently against verified keys', () => {
+    const examQuestions = [
+      { q: singleQuestion, userAns: 'python', expectedCorrect: true },
+      { q: singleQuestion, userAns: 'PYTHON', expectedCorrect: false },
+      { q: multiQuestion, userAns: ['startswith()', 'endswith()'], expectedCorrect: true }
+    ];
+
+    const results = examQuestions.map(item => checkAnswer(item.q, item.userAns));
+    expect(results[0].isCorrect).toBe(true);
+    expect(results[1].isCorrect).toBe(false);
+    expect(results[2].isCorrect).toBe(true);
+
+    const correctCount = results.filter(r => r.isCorrect).length;
+    expect(calculateAccuracy(correctCount, examQuestions.length)).toBe(66.7);
+  });
 });

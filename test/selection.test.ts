@@ -9,6 +9,21 @@ describe('Question Selection Algorithm', () => {
     expect(result.availableCount).toBeGreaterThanOrEqual(10);
   });
 
+  it('selects default 10 questions for learn mode', () => {
+    const result = selectQuestions({ mode: 'learn' });
+    expect(result.questions).toHaveLength(10);
+  });
+
+  it('selects default 15 questions for practice mode', () => {
+    const result = selectQuestions({ mode: 'practice' });
+    expect(result.questions).toHaveLength(15);
+  });
+
+  it('selects default 20 questions for exam mode', () => {
+    const result = selectQuestions({ mode: 'exam' });
+    expect(result.questions).toHaveLength(20);
+  });
+
   it('selects 20 questions for standard quiz', () => {
     const result = selectQuestions({ mode: 'standard' });
     expect(result.questions).toHaveLength(20);
