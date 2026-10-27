@@ -52,4 +52,71 @@ describe('Question Bank Verification', () => {
     const stringQuestions = getQuestionsByTopic('string-methods');
     expect(stringQuestions.length).toBeGreaterThanOrEqual(60);
   });
+
+  describe('V2 Question Bank Quality & Schema Integrity', () => {
+    it('verifies that every question has a valid, non-empty hint', () => {
+      for (const q of ALL_QUESTIONS) {
+        expect(q.hint).toBeDefined();
+        expect(q.hint!.trim().length).toBeGreaterThan(10);
+      }
+    });
+
+    it('verifies that normalized questions have valid, unique option IDs', () => {
+      for (const q of ALL_QUESTIONS) {
+        if (q.options && q.options.length > 0) {
+          const optIds = (q.options as any[]).map(o => (typeof o === 'string' ? o : o.id));
+          const uniqueIds = new Set(optIds);
+          expect(uniqueIds.size).toBe(optIds.length);
+        }
+      }
+    });
+
+    it('verifies that every single-choice question has an existing correct answer', () => {
+      for (const q of ALL_QUESTIONS) {
+        if (q.questionType !== 'multiple_choice') {
+          const optionTexts = (q.options as any[]).map(o => (typeof o === 'string' ? o : o.text));
+          expect(optionTexts).toContain(q.correctAnswer);
+        }
+      }
+    });
+
+    it('verifies that multiple-choice questions have all correct options present', () => {
+      const multiQuestions = ALL_QUESTIONS.filter(q => q.questionType === 'multiple_choice');
+      expect(multiQuestions.length).toBeGreaterThan(0);
+      for (const q of multiQuestions) {
+        expect(Array.isArray(q.correctAnswer)).toBe(true);
+        const optionTexts = (q.options as any[]).map(o => (typeof o === 'string' ? o : o.text));
+        for (const correctItem of q.correctAnswer as string[]) {
+          expect(optionTexts).toContain(correctItem);
+        }
+      }
+    });
+
+    it('detects and reports malformed questions with missing answers or options', () => {
+      const malformed = [
+        {
+          id: 'invalid-001',
+          topicId: 'test',
+          difficulty: 'beginner' as const,
+          questionText: 'Test question?',
+          questionType: 'single_choice' as const,
+          options: [
+            { id: 'opt-a', text: 'A' },
+            { id: 'opt-b', text: 'B' }
+          ],
+          correctOptionId: 'opt-c', // Not in options
+          correctAnswer: 'C',
+          explanation: 'Some explanation.',
+          hint: 'Think about valid options.',
+          tags: ['test'],
+          isVerified: true
+        }
+      ];
+
+      const report = validateQuestionBank(malformed as any);
+      expect(report.isValid).toBe(false);
+      expect(report.errors.length).toBeGreaterThan(0);
+      expect(report.errors.some(e => e.includes('not found in options'))).toBe(true);
+    });
+  });
 });

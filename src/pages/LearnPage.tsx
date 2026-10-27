@@ -38,10 +38,10 @@ export const LearnPage: React.FC = () => {
     <div className="space-y-6 animate-fade-in">
       {/* Header */}
       <div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+        <h2 className="text-2xl font-bold tracking-tight text-[#242424] dark:text-[#EAE6DF]">
           Python Curriculum Library
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+        <p className="text-sm text-[#77736D] mt-1">
           A structured 50-topic pathway covering fundamental concepts, control flow, collections, methods, and advanced Python architecture.
         </p>
       </div>
@@ -49,13 +49,13 @@ export const LearnPage: React.FC = () => {
       {/* Search & Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#77736D]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search topics (e.g. string methods, slicing, loops)..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-sm text-[#242424] dark:text-[#EAE6DF] placeholder-[#A8A49D] focus:outline-none focus:ring-1 focus:ring-[#C96B45] transition-colors"
           />
         </div>
 
@@ -64,7 +64,7 @@ export const LearnPage: React.FC = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="px-3 py-2.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-xs sm:text-sm font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45]"
           >
             <option value="all">All Categories</option>
             {TOPIC_CATEGORIES.map((cat) => (
@@ -78,7 +78,7 @@ export const LearnPage: React.FC = () => {
           <select
             value={selectedDifficulty}
             onChange={(e) => setSelectedDifficulty(e.target.value)}
-            className="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="px-3 py-2.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-xs sm:text-sm font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45]"
           >
             <option value="all">All Difficulties</option>
             <option value="beginner">Beginner</option>
@@ -95,8 +95,8 @@ export const LearnPage: React.FC = () => {
 
         return (
           <div key={category} className="space-y-4 pt-2">
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <div className="flex items-center justify-between border-b border-[#E8E5DF] dark:border-[#2C2A26] pb-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#77736D]">
                 {category} ({topicsInCategory.length})
               </h3>
             </div>
@@ -118,13 +118,13 @@ export const LearnPage: React.FC = () => {
                       }
                     }}
                     className={`flex flex-col justify-between p-5 relative transition-all ${
-                      !topic.isAvailable ? 'opacity-70 bg-slate-50/50 dark:bg-slate-950/40' : ''
+                      !topic.isAvailable ? 'opacity-60 bg-[#FAF9F6] dark:bg-[#1C1A18]' : ''
                     }`}
                   >
                     <div>
                       {/* Card Header */}
                       <div className="flex items-start justify-between gap-2 mb-3">
-                        <span className="text-xs font-mono font-bold text-slate-400 dark:text-slate-500">
+                        <span className="text-xs font-mono font-semibold text-[#77736D]">
                           #{topic.order.toString().padStart(2, '0')}
                         </span>
                         <div className="flex items-center gap-1.5">
@@ -154,37 +154,37 @@ export const LearnPage: React.FC = () => {
                       </div>
 
                       {/* Title & Description */}
-                      <h4 className="text-base font-bold text-slate-900 dark:text-white mb-1.5 group-hover:text-brand-600 transition-colors">
+                      <h4 className="text-base font-semibold text-[#242424] dark:text-[#EAE6DF] mb-1.5 group-hover:text-[#C96B45] transition-colors">
                         {topic.title}
                       </h4>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-[#77736D] line-clamp-2 leading-relaxed">
                         {topic.description}
                       </p>
                     </div>
 
                     {/* Bottom Status / Stats */}
-                    <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800">
+                    <div className="mt-5 pt-3.5 border-t border-[#E8E5DF] dark:border-[#2C2A26]">
                       {topic.isAvailable ? (
                         stats && stats.answered > 0 ? (
                           <div className="space-y-1.5">
                             <div className="flex items-center justify-between text-xs font-medium">
-                              <span className="text-slate-500">Mastery</span>
-                              <span className="font-mono font-semibold text-brand-600 dark:text-brand-400">
+                              <span className="text-[#77736D]">Mastery</span>
+                              <span className="font-mono font-semibold text-[#C96B45]">
                                 {accuracy}% ({stats.answered} answered)
                               </span>
                             </div>
                             <ProgressBar value={accuracy} size="sm" variant={accuracy >= 80 ? 'success' : 'brand'} />
                           </div>
                         ) : (
-                          <div className="flex items-center justify-between text-xs text-slate-500">
+                          <div className="flex items-center justify-between text-xs text-[#77736D]">
                             <span>Not attempted yet</span>
-                            <span className="text-brand-600 dark:text-brand-400 font-semibold flex items-center gap-1">
+                            <span className="text-[#C96B45] font-semibold flex items-center gap-1">
                               Practice <ArrowRight className="w-3 h-3" />
                             </span>
                           </div>
                         )
                       ) : (
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500 font-medium">
+                        <div className="flex items-center gap-1.5 text-xs text-[#77736D] font-medium">
                           <Clock className="w-3.5 h-3.5" />
                           <span>Curriculum in development</span>
                         </div>

@@ -70,7 +70,8 @@ export interface ActiveQuizSession {
   difficulty?: 'all' | QuestionDifficulty;
   questionIds: string[];
   currentIndex: number;
-  answers: Record<string, string | string[]>; // questionId -> answer
+  answers: Record<string, string | string[]>; // questionId -> selected optionId(s)
+  displayedOptions?: Record<string, { id: string; text: string }[]>; // questionId -> shuffled display options
   submissionStates: Record<string, boolean>; // questionId -> isSubmitted
   skippedStates: Record<string, boolean>; // questionId -> isSkipped
   hintsUsed: Record<string, boolean>; // questionId -> usedHint

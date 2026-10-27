@@ -98,10 +98,10 @@ export const QuizSetupPage: React.FC = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
       <div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+        <h2 className="text-2xl font-bold tracking-tight text-[#242424] dark:text-[#EAE6DF]">
           Configure Practice Quiz
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+        <p className="text-sm text-[#77736D] mt-1">
           Customize your study session: choose a focused topic, difficulty level, timer settings, and feedback modes.
         </p>
       </div>
@@ -109,7 +109,7 @@ export const QuizSetupPage: React.FC = () => {
       <div className="space-y-6">
         {/* Mode Selection */}
         <Card className="p-6">
-          <label className="block text-sm font-bold text-slate-900 dark:text-white mb-3">
+          <label className="block text-sm font-semibold text-[#242424] dark:text-[#EAE6DF] mb-3">
             Choose Quiz Mode
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -126,15 +126,15 @@ export const QuizSetupPage: React.FC = () => {
                   key={item.id}
                   type="button"
                   onClick={() => handleModeChange(item.id as QuizMode)}
-                  className={`p-3.5 rounded-2xl border text-left transition-all ${
+                  className={`p-3.5 rounded-xl border text-left transition-all ${
                     isSelected
-                      ? 'border-brand-600 bg-brand-50/70 dark:bg-brand-950/40 text-brand-900 dark:text-brand-100 ring-2 ring-brand-500'
-                      : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900'
+                      ? 'border-[#C96B45] bg-[#FAF0EB] dark:bg-[#33170B] text-[#242424] dark:text-white shadow-sm ring-1 ring-[#C96B45]'
+                      : 'border-[#E8E5DF] dark:border-[#2C2A26] hover:border-[#D1CDC7] bg-white dark:bg-[#201E1C] text-[#242424] dark:text-[#EAE6DF]'
                   }`}
                 >
-                  <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-brand-600 dark:text-brand-400' : 'text-slate-500'}`} />
-                  <div className="font-bold text-sm text-slate-900 dark:text-white">{item.label}</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</div>
+                  <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-[#C96B45]' : 'text-[#77736D]'}`} />
+                  <div className="font-semibold text-sm">{item.label}</div>
+                  <div className="text-[11px] text-[#77736D] mt-0.5">{item.desc}</div>
                 </button>
               );
             })}
@@ -145,21 +145,21 @@ export const QuizSetupPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleModeChange('revision')}
-                className={`w-full p-3.5 rounded-2xl border text-left flex items-center justify-between transition-all ${
+                className={`w-full p-3.5 rounded-xl border text-left flex items-center justify-between transition-all ${
                   mode === 'revision'
-                    ? 'border-rose-500 bg-rose-50/70 dark:bg-rose-950/40 text-rose-900 dark:text-rose-100 ring-2 ring-rose-500'
-                    : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900'
+                    ? 'border-[#B94B45] bg-[#FDF2F2] dark:bg-[#301614] text-[#242424] dark:text-white ring-1 ring-[#B94B45]'
+                    : 'border-[#E8E5DF] dark:border-[#2C2A26] hover:border-[#D1CDC7] bg-white dark:bg-[#201E1C]'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-[#FBF0EF] dark:bg-[#301614] text-[#B94B45] flex items-center justify-center">
                     <RotateCcw className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-bold text-sm text-slate-900 dark:text-white">
+                    <div className="font-semibold text-sm text-[#242424] dark:text-white">
                       Revision Mode (Mistakes Notebook)
                     </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                    <div className="text-xs text-[#77736D]">
                       Practice only questions you previously answered incorrectly ({activeMistakeIds.length} available)
                     </div>
                   </div>
@@ -176,16 +176,16 @@ export const QuizSetupPage: React.FC = () => {
         {mode !== 'revision' && (
           <Card className="p-6 space-y-5">
             <div>
-              <label htmlFor="topic-select" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">
+              <label htmlFor="topic-select" className="block text-sm font-semibold text-[#242424] dark:text-[#EAE6DF] mb-2">
                 Select Curriculum Topic
               </label>
               <select
                 id="topic-select"
                 value={selectedTopicId}
                 onChange={(e) => setSelectedTopicId(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-sm font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45] focus:border-[#C96B45]"
               >
-                <option value="all">🌟 All Available Topics (Comprehensive Mixed Quiz)</option>
+                <option value="all">All Available Topics (Comprehensive Mixed Quiz)</option>
                 {availableTopics.map((topic) => {
                   const count = ALL_QUESTIONS.filter(q => q.topicId === topic.id).length;
                   return (
@@ -200,7 +200,7 @@ export const QuizSetupPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Difficulty */}
               <div>
-                <label htmlFor="difficulty-select" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">
+                <label htmlFor="difficulty-select" className="block text-sm font-semibold text-[#242424] dark:text-[#EAE6DF] mb-2">
                   Target Difficulty
                 </label>
                 <select
@@ -208,7 +208,7 @@ export const QuizSetupPage: React.FC = () => {
                   value={difficulty}
                   onChange={(e) => setDifficulty(e.target.value as 'all' | QuestionDifficulty)}
                   disabled={mode === 'challenge'}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-sm font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45] focus:border-[#C96B45] disabled:opacity-50"
                 >
                   <option value="all">All Difficulties (Adaptive)</option>
                   <option value="beginner">Beginner</option>
@@ -219,14 +219,14 @@ export const QuizSetupPage: React.FC = () => {
 
               {/* Number of Questions */}
               <div>
-                <label htmlFor="count-select" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">
+                <label htmlFor="count-select" className="block text-sm font-semibold text-[#242424] dark:text-[#EAE6DF] mb-2">
                   Question Count
                 </label>
                 <select
                   id="count-select"
                   value={questionCount}
                   onChange={(e) => setQuestionCount(Number(e.target.value))}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-sm font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45] focus:border-[#C96B45]"
                 >
                   <option value={5}>5 Questions (Micro Practice)</option>
                   <option value={10}>10 Questions (Quick Session)</option>
@@ -242,18 +242,18 @@ export const QuizSetupPage: React.FC = () => {
 
         {/* Practice Preferences */}
         <Card className="p-6 space-y-4">
-          <label className="block text-sm font-bold text-slate-900 dark:text-white mb-1">
+          <label className="block text-sm font-semibold text-[#242424] dark:text-[#EAE6DF] mb-1">
             Learning Experience Preferences
           </label>
 
           <div className="space-y-3">
             {/* Immediate Feedback */}
-            <label className="flex items-center justify-between p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40">
+            <label className="flex items-center justify-between p-3.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] cursor-pointer hover:bg-[#F3F1EC]/50 dark:hover:bg-[#282623]/50 transition-colors">
               <div>
-                <div className="font-semibold text-sm text-slate-900 dark:text-white">
+                <div className="font-semibold text-sm text-[#242424] dark:text-[#EAE6DF]">
                   Immediate Feedback & Explanations
                 </div>
-                <div className="text-xs text-slate-500">
+                <div className="text-xs text-[#77736D]">
                   Show correct answers and misconception breakdowns right after submitting each question
                 </div>
               </div>
@@ -261,17 +261,17 @@ export const QuizSetupPage: React.FC = () => {
                 type="checkbox"
                 checked={immediateFeedback}
                 onChange={(e) => setImmediateFeedback(e.target.checked)}
-                className="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500"
+                className="w-4 h-4 text-[#C96B45] accent-[#C96B45] rounded border-[#E8E5DF] focus:ring-[#C96B45]"
               />
             </label>
 
             {/* Study Hints */}
-            <label className="flex items-center justify-between p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40">
+            <label className="flex items-center justify-between p-3.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] cursor-pointer hover:bg-[#F3F1EC]/50 dark:hover:bg-[#282623]/50 transition-colors">
               <div>
-                <div className="font-semibold text-sm text-slate-900 dark:text-white">
+                <div className="font-semibold text-sm text-[#242424] dark:text-[#EAE6DF]">
                   Allow Conceptual Hints
                 </div>
-                <div className="text-xs text-slate-500">
+                <div className="text-xs text-[#77736D]">
                   Allow viewing subtle clues before submitting an answer
                 </div>
               </div>
@@ -279,18 +279,18 @@ export const QuizSetupPage: React.FC = () => {
                 type="checkbox"
                 checked={hintsEnabled}
                 onChange={(e) => setHintsEnabled(e.target.checked)}
-                className="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500"
+                className="w-4 h-4 text-[#C96B45] accent-[#C96B45] rounded border-[#E8E5DF] focus:ring-[#C96B45]"
               />
             </label>
 
             {/* Timed Challenge */}
-            <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+            <div className="p-3.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] space-y-3">
               <label className="flex items-center justify-between cursor-pointer">
                 <div>
-                  <div className="font-semibold text-sm text-slate-900 dark:text-white">
+                  <div className="font-semibold text-sm text-[#242424] dark:text-[#EAE6DF]">
                     Enable Countdown Timer
                   </div>
-                  <div className="text-xs text-slate-500">
+                  <div className="text-xs text-[#77736D]">
                     Add gentle time-management constraint to the quiz
                   </div>
                 </div>
@@ -298,13 +298,13 @@ export const QuizSetupPage: React.FC = () => {
                   type="checkbox"
                   checked={timerEnabled}
                   onChange={(e) => setTimerEnabled(e.target.checked)}
-                  className="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500"
+                  className="w-4 h-4 text-[#C96B45] accent-[#C96B45] rounded border-[#E8E5DF] focus:ring-[#C96B45]"
                 />
               </label>
 
               {timerEnabled && (
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center gap-3">
-                  <span className="text-xs text-slate-600 dark:text-slate-400">Duration:</span>
+                <div className="pt-2 border-t border-[#E8E5DF] dark:border-[#2C2A26] flex items-center gap-3">
+                  <span className="text-xs text-[#77736D]">Duration:</span>
                   <div className="flex gap-2">
                     {[5, 10, 15, 20].map((mins) => (
                       <button
@@ -313,8 +313,8 @@ export const QuizSetupPage: React.FC = () => {
                         onClick={() => setTimerMinutes(mins)}
                         className={`px-3 py-1 text-xs font-semibold rounded-lg border transition-colors ${
                           timerMinutes === mins
-                            ? 'bg-brand-600 text-white border-brand-600'
-                            : 'border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
+                            ? 'bg-[#C96B45] text-white border-[#C96B45]'
+                            : 'border-[#E8E5DF] dark:border-[#2C2A26] hover:bg-[#F3F1EC] text-[#242424] dark:text-[#EAE6DF]'
                         }`}
                       >
                         {mins} min
@@ -328,13 +328,13 @@ export const QuizSetupPage: React.FC = () => {
         </Card>
 
         {/* Availability Notification Callout */}
-        <div className="p-4 rounded-2xl bg-indigo-50/80 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-[#FAF0EB] dark:bg-[#33170B]/50 border border-[#F0D5C7] dark:border-[#5A2B18] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <CheckCircle className="w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
-            <div className="text-xs sm:text-sm text-indigo-950 dark:text-indigo-200">
+            <CheckCircle className="w-5 h-5 text-[#C96B45] flex-shrink-0" />
+            <div className="text-xs sm:text-sm text-[#242424] dark:text-[#EAE6DF]">
               <span className="font-bold">{poolCount} question{poolCount === 1 ? '' : 's'}</span> available matching your criteria.
               {poolCount < questionCount && poolCount > 0 && (
-                <span className="block text-indigo-700 dark:text-indigo-300 text-xs mt-0.5">
+                <span className="block text-[#77736D] text-xs mt-0.5">
                   Notice: Requested {questionCount} questions, but only {poolCount} are currently available in this specific filter. You will receive all {poolCount}.
                 </span>
               )}
@@ -349,10 +349,10 @@ export const QuizSetupPage: React.FC = () => {
         <Button
           size="lg"
           variant="primary"
-          className="w-full text-base py-4 font-bold shadow-md shadow-brand-500/20"
+          className="w-full text-base py-3.5 font-semibold"
           onClick={handleStartQuiz}
           disabled={poolCount === 0}
-          icon={<Play className="w-5 h-5 fill-current" />}
+          icon={<Play className="w-4 h-4 fill-current" />}
         >
           {poolCount === 0 ? 'No Questions Matching Criteria' : `Launch Quiz (${effectiveCount} Questions)`}
         </Button>

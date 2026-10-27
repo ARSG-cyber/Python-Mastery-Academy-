@@ -72,10 +72,10 @@ export const SettingsPage: React.FC = () => {
   return (
     <div className="space-y-6 animate-fade-in max-w-4xl mx-auto">
       <div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+        <h2 className="text-2xl font-bold tracking-tight text-[#242424] dark:text-[#EAE6DF]">
           Settings & Data Management
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+        <p className="text-sm text-[#77736D] mt-1">
           Configure learning interface preferences, sound effects, default quiz settings, and manage persistent storage.
         </p>
       </div>
@@ -83,16 +83,16 @@ export const SettingsPage: React.FC = () => {
       {/* Notification banner if import was performed */}
       {importStatus && (
         <div
-          className={`p-4 rounded-2xl flex items-center gap-3 text-sm animate-fade-in ${
+          className={`p-4 rounded-xl flex items-center gap-3 text-sm animate-fade-in ${
             importStatus.type === 'success'
-              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800'
-              : 'bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 border border-rose-200 dark:border-rose-800'
+              ? 'bg-[#EBF5F0] dark:bg-[#152E20]/40 text-[#287A52] dark:text-[#A2D4BC] border border-[#C3E4D4] dark:border-[#206342]'
+              : 'bg-[#FBF0EF] dark:bg-[#301614]/40 text-[#B94B45] dark:text-[#EDB0AC] border border-[#F2C5C3] dark:border-[#6B2824]'
           }`}
         >
           {importStatus.type === 'success' ? (
-            <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+            <CheckCircle2 className="w-5 h-5 text-[#287A52] flex-shrink-0" />
           ) : (
-            <AlertTriangle className="w-5 h-5 text-rose-500 flex-shrink-0" />
+            <AlertTriangle className="w-5 h-5 text-[#B94B45] flex-shrink-0" />
           )}
           <span>{importStatus.message}</span>
         </div>
@@ -100,8 +100,8 @@ export const SettingsPage: React.FC = () => {
 
       {/* Appearance Settings */}
       <Card className="p-6 space-y-4">
-        <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <Sliders className="w-4 h-4 text-brand-500" />
+        <h3 className="text-base font-bold text-[#242424] dark:text-[#EAE6DF] flex items-center gap-2">
+          <Sliders className="w-4 h-4 text-[#C96B45]" />
           <span>Appearance & Theme</span>
         </h3>
 
@@ -120,12 +120,12 @@ export const SettingsPage: React.FC = () => {
                 onClick={() => setTheme(item.id as 'light' | 'dark' | 'system')}
                 className={`p-4 rounded-xl border text-center transition-all ${
                   isSelected
-                    ? 'border-brand-600 bg-brand-50/70 dark:bg-brand-950/40 text-brand-900 dark:text-brand-100 ring-2 ring-brand-500'
-                    : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900'
+                    ? 'border-[#C96B45] bg-[#FAF0EB] dark:bg-[#33170B] text-[#242424] dark:text-white shadow-sm ring-1 ring-[#C96B45]'
+                    : 'border-[#E8E5DF] dark:border-[#2C2A26] hover:border-[#D1CDC7] bg-white dark:bg-[#201E1C]'
                 }`}
               >
-                <Icon className={`w-5 h-5 mx-auto mb-2 ${isSelected ? 'text-brand-600' : 'text-slate-400'}`} />
-                <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white">
+                <Icon className={`w-5 h-5 mx-auto mb-2 ${isSelected ? 'text-[#C96B45]' : 'text-[#77736D]'}`} />
+                <div className="font-semibold text-xs sm:text-sm text-[#242424] dark:text-[#EAE6DF]">
                   {item.label}
                 </div>
               </button>
@@ -136,20 +136,20 @@ export const SettingsPage: React.FC = () => {
 
       {/* Quiz Default Preferences */}
       <Card className="p-6 space-y-5">
-        <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <SettingsIcon className="w-4 h-4 text-brand-500" />
+        <h3 className="text-base font-bold text-[#242424] dark:text-[#EAE6DF] flex items-center gap-2">
+          <SettingsIcon className="w-4 h-4 text-[#C96B45]" />
           <span>Quiz Defaults & Feedback</span>
         </h3>
 
         <div className="space-y-4">
           {/* Sound toggle */}
-          <div className="flex items-center justify-between p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26]">
             <div>
-              <div className="font-semibold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-                {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-brand-500" /> : <VolumeX className="w-4 h-4 text-slate-400" />}
+              <div className="font-semibold text-sm text-[#242424] dark:text-[#EAE6DF] flex items-center gap-2">
+                {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-[#C96B45]" /> : <VolumeX className="w-4 h-4 text-[#77736D]" />}
                 <span>Audio Feedback</span>
               </div>
-              <div className="text-xs text-slate-500">
+              <div className="text-xs text-[#77736D]">
                 Synthesizes subtle sound effects on correct and incorrect answers
               </div>
             </div>
@@ -157,17 +157,17 @@ export const SettingsPage: React.FC = () => {
               type="checkbox"
               checked={settings.soundEnabled}
               onChange={(e) => updateSettings({ soundEnabled: e.target.checked })}
-              className="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500"
+              className="w-4 h-4 text-[#C96B45] accent-[#C96B45] rounded border-[#E8E5DF] focus:ring-[#C96B45]"
             />
           </div>
 
           {/* Immediate Feedback toggle */}
-          <div className="flex items-center justify-between p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26]">
             <div>
-              <div className="font-semibold text-sm text-slate-900 dark:text-white">
+              <div className="font-semibold text-sm text-[#242424] dark:text-[#EAE6DF]">
                 Immediate Feedback & Explanations
               </div>
-              <div className="text-xs text-slate-500">
+              <div className="text-xs text-[#77736D]">
                 Reveal the solution and pedagogical explanation directly after answering each question
               </div>
             </div>
@@ -175,17 +175,17 @@ export const SettingsPage: React.FC = () => {
               type="checkbox"
               checked={settings.immediateFeedback}
               onChange={(e) => updateSettings({ immediateFeedback: e.target.checked })}
-              className="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500"
+              className="w-4 h-4 text-[#C96B45] accent-[#C96B45] rounded border-[#E8E5DF] focus:ring-[#C96B45]"
             />
           </div>
 
           {/* Hints Enabled */}
-          <div className="flex items-center justify-between p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26]">
             <div>
-              <div className="font-semibold text-sm text-slate-900 dark:text-white">
+              <div className="font-semibold text-sm text-[#242424] dark:text-[#EAE6DF]">
                 Enable Conceptual Hints
               </div>
-              <div className="text-xs text-slate-500">
+              <div className="text-xs text-[#77736D]">
                 Show hint button to view subtle conceptual clues during quizzes
               </div>
             </div>
@@ -193,21 +193,21 @@ export const SettingsPage: React.FC = () => {
               type="checkbox"
               checked={settings.hintsEnabled}
               onChange={(e) => updateSettings({ hintsEnabled: e.target.checked })}
-              className="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500"
+              className="w-4 h-4 text-[#C96B45] accent-[#C96B45] rounded border-[#E8E5DF] focus:ring-[#C96B45]"
             />
           </div>
 
           {/* Preferred Question Count */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <div>
-              <label htmlFor="settings-count" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label htmlFor="settings-count" className="block text-xs font-semibold text-[#242424] dark:text-[#EAE6DF] mb-1.5">
                 Preferred Question Count
               </label>
               <select
                 id="settings-count"
                 value={settings.preferredQuestionCount}
                 onChange={(e) => updateSettings({ preferredQuestionCount: Number(e.target.value) })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-sm font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45]"
               >
                 <option value={5}>5 Questions</option>
                 <option value={10}>10 Questions</option>
@@ -220,14 +220,14 @@ export const SettingsPage: React.FC = () => {
 
             {/* Default Difficulty */}
             <div>
-              <label htmlFor="settings-diff" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label htmlFor="settings-diff" className="block text-xs font-semibold text-[#242424] dark:text-[#EAE6DF] mb-1.5">
                 Default Difficulty
               </label>
               <select
                 id="settings-diff"
                 value={settings.defaultDifficulty}
                 onChange={(e) => updateSettings({ defaultDifficulty: e.target.value as 'all' | QuestionDifficulty })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-sm font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45]"
               >
                 <option value="all">All Difficulties</option>
                 <option value="beginner">Beginner</option>

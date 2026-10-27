@@ -22,7 +22,7 @@ describe('Storage and Progress Persistence', () => {
     expect(data.totalAnswered).toBe(0);
     expect(data.streak.currentStreak).toBe(0);
     expect(data.quizHistory).toEqual([]);
-    expect(data.settings.theme).toBe('system');
+    expect(data.settings.theme).toBe('light');
   });
 
   it('recovers gracefully from corrupted JSON in localStorage', () => {

@@ -1,4 +1,4 @@
-import { Question } from '../types/question';
+import { Question, QuestionOption } from '../types/question';
 
 export interface AnswerEvaluation {
   isCorrect: boolean;
@@ -6,10 +6,21 @@ export interface AnswerEvaluation {
   missedOptions?: string[];
   extraOptions?: string[];
   userSelection: string | string[];
+  selectedText?: string | string[];
 }
 
 /**
- * Evaluates a user answer against the question's correct answer.
+ * Resolves option ID or text to option display text.
+ */
+export function resolveOptionText(options: QuestionOption[] | undefined, value: string): string {
+  if (!options) return value;
+  const found = options.find(opt => opt.id === value || opt.text === value);
+  return found ? found.text : value;
+}
+
+/**
+ * Evaluates a user answer against the question's correct option ID or answer text.
+ * Compares stable option IDs when available, while maintaining fallback compatibility.
  */
 export function checkAnswer(
   question: Question,
@@ -25,40 +36,63 @@ export function checkAnswer(
 
   // Handle multiple-answer questions
   if (question.questionType === 'multiple_choice') {
-    const correctAnswers = Array.isArray(question.correctAnswer)
+    const correctIds = Array.isArray(question.correctOptionId)
+      ? question.correctOptionId
+      : Array.isArray(question.correctAnswer)
       ? question.correctAnswer
-      : [question.correctAnswer];
-    const userAnswers = Array.isArray(selectedAnswer)
+      : [question.correctOptionId || question.correctAnswer];
+
+    const userSelections = Array.isArray(selectedAnswer)
       ? selectedAnswer
       : [selectedAnswer];
 
-    const correctSet = new Set(correctAnswers);
-    const userSet = new Set(userAnswers);
+    // Build sets matching either option ID or text
+    const correctIdSet = new Set(correctIds);
+    const correctTextSet = new Set(
+      Array.isArray(question.correctAnswer) ? question.correctAnswer : [question.correctAnswer]
+    );
 
-    const missedOptions = correctAnswers.filter(ans => !userSet.has(ans));
-    const extraOptions = userAnswers.filter(ans => !correctSet.has(ans));
+    // Check matches
+    const isUserSelectionCorrect = (val: string) =>
+      correctIdSet.has(val) || correctTextSet.has(val);
 
-    const isFullyCorrect = missedOptions.length === 0 && extraOptions.length === 0;
-    const isPartial = !isFullyCorrect && userAnswers.some(ans => correctSet.has(ans));
+    const missed = correctIds
+      .filter(id => {
+        const optText = resolveOptionText(question.options, id);
+        return !userSelections.includes(id) && !userSelections.includes(optText);
+      })
+      .map(id => resolveOptionText(question.options, id));
+
+    const extra = userSelections
+      .filter(val => !isUserSelectionCorrect(val))
+      .map(val => resolveOptionText(question.options, val));
+
+    const isFullyCorrect = missed.length === 0 && extra.length === 0;
+    const isPartial = !isFullyCorrect && userSelections.some(val => isUserSelectionCorrect(val));
 
     return {
       isCorrect: isFullyCorrect,
       isPartial,
-      missedOptions,
-      extraOptions,
-      userSelection: userAnswers,
+      missedOptions: missed,
+      extraOptions: extra,
+      userSelection: userSelections,
+      selectedText: userSelections.map(val => resolveOptionText(question.options, val)),
     };
   }
 
-  // Single choice / code output / true_false / valid_method / etc.
-  const expected = String(question.correctAnswer).trim();
-  const actual = String(selectedAnswer).trim();
-  const isCorrect = expected === actual;
+  // Single choice / code output / true_false / valid_method
+  const userVal = String(selectedAnswer).trim();
+  const correctId = String(question.correctOptionId || '').trim();
+  const correctText = String(question.correctAnswer || '').trim();
+
+  // Answer is correct if it matches the correctOptionId OR correctAnswer text
+  const isCorrect = userVal === correctId || userVal === correctText;
 
   return {
     isCorrect,
     isPartial: false,
     userSelection: selectedAnswer,
+    selectedText: resolveOptionText(question.options, userVal),
   };
 }
 

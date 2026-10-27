@@ -1,6 +1,6 @@
-import { Question } from '../../types/question';
+import { RawQuestion } from '../../types/question';
 
-export const FUNDAMENTALS_QUESTIONS: Question[] = [
+export const FUNDAMENTALS_QUESTIONS: RawQuestion[] = [
   // 1. Guido van Rossum
   {
     id: 'fund-001',
@@ -37,7 +37,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       '1995': '1995 is when Java and JavaScript were first released.',
       '2000': 'Python 2.0 was released in October 2000.'
     },
-    hint: 'Development started in 1989, but the first public release happened in early 1991.',
+    hint: 'Consider the decade when early web and scripting languages emerged, shortly before Java and JavaScript.',
     tags: ['history', 'release-year', '1991'],
     isVerified: true
   },
@@ -87,7 +87,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'Source code is read and interpreted line-by-line as raw text without any intermediate bytecode': 'Python always compiles to bytecode first; it does not parse raw text on every loop iteration.',
       'Source code is converted to JavaScript and run in V8': 'Transpilers like Brython exist, but CPython executes via bytecode on the PVM.'
     },
-    hint: 'Look for the two-step process involving bytecode and the virtual machine.',
+    hint: 'Consider how standard Python balances portable intermediate representations with an execution engine.',
     tags: ['execution', 'bytecode', 'pvm'],
     isVerified: true
   },
@@ -112,7 +112,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'Types are only checked during compile time, and all variables can be changed into numbers': 'Python checks types at runtime.',
       'Variables can hold only one type throughout their entire lifetime': 'In Python, a variable name can be rebound to an object of a different type at any time.'
     },
-    hint: 'Dynamic = runtime binding. Strong = no silent implicit type confusion.',
+    hint: 'Focus on when variable types are bound versus whether Python permits silent type coercion between incompatible types.',
     tags: ['typing', 'dynamic', 'strong-typing'],
     isVerified: true
   },
@@ -139,7 +139,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'NameError: name greet is not defined': 'The error occurs during parsing before greet() is called.',
       'TypeError: function missing body': 'Python raises IndentationError, not TypeError.'
     },
-    hint: 'Python enforces indentation for code blocks.',
+    hint: 'Think about how Python defines the boundary of code blocks compared to brace-based languages.',
     tags: ['syntax', 'indentation', 'IndentationError'],
     isVerified: true
   },
@@ -159,7 +159,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'user-name': 'The hyphen is parsed as the subtraction operator (-), not part of an identifier.',
       'class': 'class is a reserved keyword in Python used to define classes.'
     },
-    hint: 'Identifiers can start with a letter or underscore, but never a digit or keyword.',
+    hint: 'Review the rules for the initial character of an identifier, and verify whether hyphens or reserved words are allowed.',
     tags: ['naming', 'variables', 'identifiers'],
     isVerified: true
   },
@@ -181,7 +181,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'False True': 'a == b is True because their contents match.',
       'False False': 'The contents are equal, so a == b is True.'
     },
-    hint: '== checks values, is checks memory identity (id).',
+    hint: 'Consider the distinction between equivalent values and identical objects stored at the same memory location.',
     tags: ['operators', 'identity', 'equality', 'is'],
     isVerified: true
   },
@@ -203,7 +203,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       '3 3': 'Python 3 always returns float 3.5 for true division /.',
       '3.5 4': '// floors towards negative infinity, not ceiling.'
     },
-    hint: '/ gives a float, // floors to an integer.',
+    hint: 'Compare how Python 3 separates exact floating-point division from truncation towards negative infinity.',
     tags: ['arithmetic', 'division', 'operators'],
     isVerified: true
   },
@@ -225,7 +225,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       '36': 'Check the powers: 3 ** 2 = 9, 2 ** 9 = 512.',
       '12': 'Multiplication is *, exponentiation is **.'
     },
-    hint: 'Exponentiation ** evaluates from right to left: 2 ** (3 ** 2).',
+    hint: 'Think about operator associativity and the order in which consecutive exponentiation operations are grouped.',
     tags: ['operators', 'precedence', 'associativity'],
     isVerified: true
   },
@@ -244,7 +244,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'list': 'Lists can be mutated in-place via append, pop, slice assignment, etc.',
       'dict': 'Dictionaries can be modified in-place by adding or updating keys.'
     },
-    hint: 'Which types cannot be changed once created?',
+    hint: 'Consider which types allow modifying their content in-place without creating a new object.',
     tags: ['mutability', 'types', 'immutable'],
     isVerified: true
   },
@@ -264,7 +264,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'if x is not not None:': 'Double negation is unnecessarily convoluted.',
       'if x.is_none():': 'None is an object singleton; there is no is_none() method.'
     },
-    hint: 'Use the identity operator is for checking the None singleton.',
+    hint: 'Think about PEP 8 recommendations for testing singleton objects in memory.',
     tags: ['None', 'PEP8', 'identity'],
     isVerified: true
   },
@@ -286,7 +286,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'SyntaxError: else cannot follow for': 'for...else and while...else are standard, valid Python constructs.',
       '2 4 6': 'The print statement inside the else clause prints "All even!".'
     },
-    hint: 'A for...else block executes when the loop finishes without hitting a break statement.',
+    hint: 'Consider the specific condition under which an else clause attached to a loop executes in Python.',
     tags: ['loops', 'for-else', 'control-flow'],
     isVerified: true
   },
@@ -313,7 +313,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       'ValueError: list cannot be converted to hash': 'Python raises TypeError, not ValueError.',
       'KeyError: [1, 2]': 'KeyError happens when reading an absent key, not when setting an unhashable key.'
     },
-    hint: 'Can mutable objects like lists be used as dictionary keys in Python?',
+    hint: 'Consider whether mutable sequence types satisfy the hashability requirement for dictionary keys.',
     tags: ['dictionaries', 'hashability', 'TypeError'],
     isVerified: true
   },
@@ -340,7 +340,7 @@ export const FUNDAMENTALS_QUESTIONS: Question[] = [
       '[1]\n[1]': 'The second call appends 2 to the existing list.',
       '[1, 2]\n[1, 2]': 'The first call prints [1] before the second call happens.'
     },
-    hint: 'Default argument expressions in Python are evaluated once when the function is defined.',
+    hint: 'Consider when default parameter expressions are evaluated and whether the object is reused across function calls.',
     tags: ['functions', 'mutable-defaults', 'gotcha'],
     isVerified: true
   }

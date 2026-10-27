@@ -14,18 +14,18 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
 }) => {
   const variantStyles = {
-    default: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700',
-    primary: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
-    success: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
-    warning: 'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-800',
-    danger: 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800',
-    purple: 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200 dark:border-purple-800',
-    python: 'bg-[#306998]/10 text-[#306998] dark:bg-[#306998]/20 dark:text-[#5fa8d3] border-[#306998]/30',
+    default: 'bg-[#F3F1EC] text-[#55514B] dark:bg-[#282623] dark:text-[#A8A49D] border-[#E8E5DF] dark:border-[#2C2A26]',
+    primary: 'bg-[#FAF0EB] text-[#C96B45] dark:bg-[#33170B] dark:text-[#EBC0AF] border-[#EBC0AF] dark:border-[#5A2B18]',
+    success: 'bg-[#EBF5F0] text-[#287A52] dark:bg-[#152E20] dark:text-[#A2D4BC] border-[#C3E4D4] dark:border-[#206342]',
+    warning: 'bg-[#FEF6EE] text-[#B54708] dark:bg-[#332012] dark:text-[#FAD2A4] border-[#F9DBAF] dark:border-[#7A3608]',
+    danger: 'bg-[#FBF0EF] text-[#B94B45] dark:bg-[#301614] dark:text-[#EDB0AC] border-[#F2C5C3] dark:border-[#6B2824]',
+    purple: 'bg-[#F3F1EC] text-[#55514B] dark:bg-[#282623] dark:text-[#A8A49D] border-[#E8E5DF] dark:border-[#2C2A26]',
+    python: 'bg-[#FAF0EB] text-[#C96B45] dark:bg-[#282623] dark:text-[#DF9F84] border-[#EBC0AF] dark:border-[#3D3A35]',
   };
 
   const sizeStyles = {
-    sm: 'text-xs px-2 py-0.5 rounded-full',
-    md: 'text-xs font-medium px-2.5 py-1 rounded-full',
+    sm: 'text-[11px] px-2 py-0.5 rounded-md',
+    md: 'text-xs font-medium px-2.5 py-0.5 rounded-md',
   };
 
   return (

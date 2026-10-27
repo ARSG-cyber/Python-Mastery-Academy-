@@ -1,6 +1,6 @@
-import { Question } from '../../types/question';
+import { RawQuestion } from '../../types/question';
 
-export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
+export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: RawQuestion[] = [
   // 1. Ternary conditional expression
   {
     id: 'cf-001',
@@ -19,7 +19,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       'True': 'The ternary expression returns either "adult" or "minor", not a boolean.',
       'SyntaxError': '`x if cond else y` is standard Python ternary syntax.'
     },
-    hint: 'Check if age 17 satisfies the condition age >= 18.',
+    hint: 'Evaluate whether the condition between if and else is met to see which branch executes.',
     tags: ['ternary', 'conditions', 'if-else'],
     isVerified: true
   },
@@ -41,7 +41,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       '[3, 6, 9]': 'The sequence starts at 2, not 3.',
       '[2, 4, 6, 8]': 'The step is 3, not 2.'
     },
-    hint: 'Start at 2, add 3 each time, stop strictly before 10.',
+    hint: 'Recall how range handles the start value, upper bound exclusion, and step increment.',
     tags: ['range', 'loops', 'arithmetic'],
     isVerified: true
   },
@@ -63,7 +63,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       '3 3': 'extend adds both 3 and 4, increasing length to 4.',
       '4 3': 'a has length 3 and b has length 4.'
     },
-    hint: 'append adds the object as a single item; extend unpacks the elements.',
+    hint: 'Consider whether each method adds its argument as a single element or unpacks its items.',
     tags: ['lists', 'append', 'extend'],
     isVerified: true
   },
@@ -85,7 +85,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       '[0, 1, 4, 9, 16]': 'This would be without the if filter.',
       '[4, 16]': '0 is even (0 % 2 == 0), so 0*0=0 is included.'
     },
-    hint: 'Filter for even numbers in 0, 1, 2, 3, 4 and square them.',
+    hint: 'Trace which numbers in the range meet the modulus condition before the expression is computed.',
     tags: ['comprehensions', 'lists', 'filtering'],
     isVerified: true
   },
@@ -107,7 +107,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       '3 10': '"timeout" exists in the dictionary, so 30 is used, not the fallback 10.',
       'KeyError: retries': 'get() never raises KeyError for missing keys.'
     },
-    hint: 'get() returns the fallback only when the key is not present.',
+    hint: 'Look at whether the requested keys are already defined in the dictionary or require the fallback.',
     tags: ['dictionaries', 'get', 'defaults'],
     isVerified: true
   },
@@ -129,7 +129,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       '[1, 2]': 'That would be difference `a - b`.',
       '[5, 6]': 'That would be difference `b - a`.'
     },
-    hint: '& is set intersection: elements that belong to both sets.',
+    hint: 'Think about which mathematical set operation the ampersand represents.',
     tags: ['sets', 'intersection', 'operators'],
     isVerified: true
   },
@@ -151,7 +151,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       'int int': 'The comma in (42,) makes y a tuple.',
       'tuple int': 'x is the int, y is the tuple.'
     },
-    hint: 'Single-element tuples must have a trailing comma.',
+    hint: 'Consider what punctuation distinguishes parentheses used for grouping from parentheses creating a tuple.',
     tags: ['tuples', 'syntax', 'types'],
     isVerified: true
   },
@@ -178,7 +178,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       'ValueError: cannot reassign immutable coordinate': 'Python raises TypeError.',
       'IndexError: tuple index out of range': 'Index 0 is valid, but the object is immutable.'
     },
-    hint: 'Tuples cannot be modified after creation.',
+    hint: 'Recall what exception Python raises when attempting to alter an element of an immutable sequence.',
     tags: ['tuples', 'immutability', 'TypeError'],
     isVerified: true
   },
@@ -200,7 +200,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       '[1, 2, 3, 4]': 'first captures 1.',
       'SyntaxError': 'Extended iterable unpacking has been supported since Python 3.0.'
     },
-    hint: 'Extended unpacking captures the remaining items into a list.',
+    hint: 'Think about what sequence type Python constructs to collect items marked with an unpacking asterisk.',
     tags: ['unpacking', 'asterisk', 'python3'],
     isVerified: true
   },
@@ -222,7 +222,7 @@ export const CONTROL_FLOW_AND_COLLECTIONS_QUESTIONS: Question[] = [
       'tuple list': 'kwargs is a dictionary of name-value pairs, not a list.',
       'list list': 'args is a tuple, and kwargs is a dict.'
     },
-    hint: '*args becomes a tuple, **kwargs becomes a dict.',
+    hint: 'Recall the collection types Python uses to gather arbitrary positional arguments versus named keyword arguments.',
     tags: ['functions', 'args', 'kwargs'],
     isVerified: true
   }

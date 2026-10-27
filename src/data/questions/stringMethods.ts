@@ -1,6 +1,6 @@
-import { Question } from '../../types/question';
+import { RawQuestion } from '../../types/question';
 
-export const STRING_QUESTIONS: Question[] = [
+export const STRING_QUESTIONS: RawQuestion[] = [
   // 1. Immutability
   {
     id: 'str-001',
@@ -19,7 +19,7 @@ export const STRING_QUESTIONS: Question[] = [
       'None': 'Methods like list.sort() return None because they mutate in place, but string methods return new strings.',
       'AttributeError': 'upper() is a valid string method, so no error is raised.'
     },
-    hint: 'Remember that all string methods in Python return a new string rather than modifying the original.',
+    hint: 'Consider whether string methods in Python mutate objects in-place or return newly created objects.',
     tags: ['immutability', 'upper', 'basics'],
     isVerified: true
   },
@@ -61,7 +61,7 @@ export const STRING_QUESTIONS: Question[] = [
       'None': 'find() returns -1 on failure, not None.',
       'ValueError: substring not found': 'That is the behavior of str.index(), not str.find().'
     },
-    hint: 'find() returns an integer index or a special sentinel integer if missing.',
+    hint: 'Consider what value a search operation returns when the requested substring is not present.',
     tags: ['find', 'search', 'return-value'],
     isVerified: true
   },
@@ -86,7 +86,7 @@ export const STRING_QUESTIONS: Question[] = [
       'index() returns None, whereas find() returns False': 'Neither method returns None or False.',
       'There is no difference; index() is just an alias for find()': 'They differ fundamentally in their error handling.'
     },
-    hint: 'One method raises an exception when the item is missing, while the other returns -1.',
+    hint: 'Compare how different Python search methods signal that a target substring was not found.',
     tags: ['index', 'find', 'exceptions'],
     isVerified: true
   },
@@ -108,7 +108,7 @@ export const STRING_QUESTIONS: Question[] = [
       '2': '2 is the count of occurrences, not the index returned by rfind().',
       '-1': '"apple" does exist in the string, so rfind() finds it.'
     },
-    hint: 'The "r" prefix in rfind stands for "right".',
+    hint: 'Consider whether search methods prefixed with "r" traverse the string from the beginning or the end.',
     tags: ['rfind', 'search', 'indexing'],
     isVerified: true
   },
@@ -130,7 +130,7 @@ export const STRING_QUESTIONS: Question[] = [
       '1': '"an" appears twice, not once.',
       '0': '"an" is definitely present in "banana".'
     },
-    hint: 'Count how many times the exact two-letter sequence "an" appears without overlapping.',
+    hint: 'Trace the characters from left to right to spot every independent occurrence of the target.',
     tags: ['count', 'search'],
     isVerified: true
   },
@@ -152,7 +152,7 @@ export const STRING_QUESTIONS: Question[] = [
       '4': 'There are 4 characters total, not 4 occurrences of "AA".',
       '1': 'There are two full non-overlapping pairs of "AA".'
     },
-    hint: 'Python string count() never overlaps matching substrings.',
+    hint: 'Consider whether substring occurrences can overlap when counted in Python sequences.',
     tags: ['count', 'edge-case'],
     isVerified: true
   },
@@ -174,7 +174,7 @@ export const STRING_QUESTIONS: Question[] = [
       'TypeError': 'Passing a tuple of prefixes to startswith() is fully supported in standard Python.',
       'SyntaxError': 'The syntax is completely valid.'
     },
-    hint: 'startswith() accepts a tuple of candidates.',
+    hint: 'Check whether prefix-matching methods allow grouping multiple candidate prefixes.',
     tags: ['startswith', 'tuple-arguments', 'inspection'],
     isVerified: true
   },
@@ -196,7 +196,7 @@ export const STRING_QUESTIONS: Question[] = [
       'None': 'endswith() returns a boolean True or False.',
       'AttributeError': 'endswith() is a valid string method.'
     },
-    hint: 'Is Python string comparison case-sensitive?',
+    hint: 'Consider whether case sensitivity affects string suffix comparison.',
     tags: ['endswith', 'case-sensitive'],
     isVerified: true
   },
@@ -218,7 +218,7 @@ export const STRING_QUESTIONS: Question[] = [
       '.example.': 'The dots are in the strip set, so they are also removed.',
       'www.example': 'The \'w\' and \'.\' characters are stripped from the left end.'
     },
-    hint: 'strip() treats its argument as a set of characters, not an exact substring prefix or suffix.',
+    hint: 'Pay attention to whether the strip argument defines an ordered sequence or a collection of individual characters.',
     tags: ['strip', 'character-set', 'pitfall'],
     isVerified: true
   },
@@ -240,7 +240,7 @@ export const STRING_QUESTIONS: Question[] = [
       '[Python Mastery]': 'That would be the result of `strip()`, which strips both sides.',
       '[   Python Mastery   ]': 'lstrip() removes the leading whitespace.'
     },
-    hint: 'lstrip operates only on the leading (left) characters.',
+    hint: 'Observe which end of the string the "l" in lstrip corresponds to.',
     tags: ['lstrip', 'whitespace'],
     isVerified: true
   },
@@ -262,7 +262,7 @@ export const STRING_QUESTIONS: Question[] = [
       'https://example.com': 'Because the string starts with "https://", it is removed.',
       'AttributeError': 'removeprefix is a standard str method in Python 3.9+.'
     },
-    hint: 'removeprefix removes the exact prefix sequence if present.',
+    hint: 'Think about the specialized purpose of removeprefix compared to character-set trimming methods.',
     tags: ['removeprefix', 'python3.9', 'transformation'],
     isVerified: true
   },
@@ -284,7 +284,7 @@ export const STRING_QUESTIONS: Question[] = [
       'ValueError': 'removesuffix does not raise an exception when the suffix is missing.',
       'None': 'String methods return strings, not None.'
     },
-    hint: 'If the suffix does not match, what should happen to the original string?',
+    hint: 'Consider what removesuffix does when the requested suffix is not present on the string.',
     tags: ['removesuffix', 'python3.9', 'safety'],
     isVerified: true
   },
@@ -311,7 +311,7 @@ export const STRING_QUESTIONS: Question[] = [
       'one fish, two fish, red cat': 'Replacements proceed from left to right, not right to left.',
       'TypeError: replace takes at most 2 arguments': 'replace() takes up to 3 arguments: old, new, and count.'
     },
-    hint: 'The third parameter to replace() limits the maximum number of occurrences replaced from left to right.',
+    hint: 'Consider how passing an integer as an optional third argument alters replace() behavior.',
     tags: ['replace', 'count-parameter'],
     isVerified: true
   },
@@ -338,7 +338,7 @@ export const STRING_QUESTIONS: Question[] = [
       "['  Python', 'Mastery', 'Academy  ']": 'Default split discards leading and trailing whitespace completely.',
       "['Python Mastery Academy']": 'split() divides the string into separate elements.'
     },
-    hint: 'When no separator is passed to split(), how are runs of consecutive whitespace handled?',
+    hint: 'Consider how split without arguments handles consecutive whitespace characters.',
     tags: ['split', 'whitespace', 'delimiter'],
     isVerified: true
   },
@@ -363,7 +363,7 @@ export const STRING_QUESTIONS: Question[] = [
       '`split()` returns a tuple, while `split(" ")` returns a list': 'Both methods return lists.',
       'There is no difference; they produce identical results for all inputs': 'They produce very different lists when consecutive spaces or leading spaces exist.'
     },
-    hint: 'Think about how multiple adjacent spaces and tabs are treated.',
+    hint: 'Compare how consecutive spaces and leading padding are parsed when a delimiter is specified versus omitted.',
     tags: ['split', 'whitespace', 'subtle-difference'],
     isVerified: true
   },
@@ -390,7 +390,7 @@ export const STRING_QUESTIONS: Question[] = [
       "['report.pdf', 'users/admin/documents']": 'The elements in the resulting list remain in their original left-to-right order.',
       "['users', 'admin', 'documents', 'report.pdf']": 'maxsplit=1 limits the number of splits to 1.'
     },
-    hint: 'rsplit starts splitting from the right, but list elements maintain left-to-right order.',
+    hint: 'Note where rsplit begins counting when a maximum split limit is supplied.',
     tags: ['rsplit', 'maxsplit'],
     isVerified: true
   },
@@ -417,7 +417,7 @@ export const STRING_QUESTIONS: Question[] = [
       "['Roses are red', 'Violets are blue', '']": 'Unlike split("\\n"), splitlines() does not add an empty trailing string for a final newline.',
       'TypeError: splitlines does not accept keepends': 'keepends is a standard parameter of splitlines.'
     },
-    hint: 'keepends=True keeps line break characters in each list item.',
+    hint: 'Consider what the keepends boolean parameter instructs splitlines to do with boundary line-break characters.',
     tags: ['splitlines', 'newlines', 'keepends'],
     isVerified: true
   },
@@ -444,7 +444,7 @@ export const STRING_QUESTIONS: Question[] = [
       '["Python", "-", "is", "-", "awesome"]': 'join() returns a single combined string, not a list.',
       'TypeError: join must be called on the list': 'In Python, join is a string method called as delimiter.join(iterable).'
     },
-    hint: 'The delimiter is placed between adjacent items of the iterable.',
+    hint: 'Recall where the join method places its separator relative to the items in the sequence.',
     tags: ['join', 'delimiter', 'list-to-string'],
     isVerified: true
   },
@@ -471,7 +471,7 @@ export const STRING_QUESTIONS: Question[] = [
       '[1, 2, 3]': 'join() never returns a list.',
       '"1, 2, 3"': 'No automatic type conversion is performed; an error is raised.'
     },
-    hint: 'Does join() automatically coerce numbers to strings, or does it enforce types?',
+    hint: 'Consider whether join expects all sequence items to already be string instances.',
     tags: ['join', 'TypeError', 'type-coercion'],
     isVerified: true
   },
@@ -498,7 +498,7 @@ export const STRING_QUESTIONS: Question[] = [
       "('alice', 'example.com')": 'The separator itself is always included as the middle element of the 3-tuple.',
       "{'user': 'alice', 'domain': 'example.com'}": 'partition returns a tuple, not a dictionary.'
     },
-    hint: 'partition always returns a 3-element tuple containing the prefix, the separator, and the suffix.',
+    hint: 'Recall the container type and number of segments returned when partitioning a string.',
     tags: ['partition', '3-tuple'],
     isVerified: true
   },
@@ -525,7 +525,7 @@ export const STRING_QUESTIONS: Question[] = [
       'ValueError: separator not found': 'partition() never raises an error if the separator is missing.',
       "('hello world',)": 'partition() strictly always returns a 3-tuple.'
     },
-    hint: 'When separator is missing, partition puts the original string first, followed by two empty strings.',
+    hint: 'Consider how partition maintains a consistent tuple structure even when the delimiter cannot be found.',
     tags: ['partition', 'fallback', 'edge-case'],
     isVerified: true
   },
@@ -552,7 +552,7 @@ export const STRING_QUESTIONS: Question[] = [
       "('python', ':', '')": 'If the separator is not found, the separator in the tuple is the empty string.',
       "('', ':', 'python')": 'The middle element is empty string when not found.'
     },
-    hint: 'rpartition places the original string as the third element when the separator is absent.',
+    hint: 'Think about how rpartition\'s directional bias affects fallback tuple placement when the separator is absent.',
     tags: ['rpartition', 'edge-case'],
     isVerified: true
   },
@@ -577,7 +577,7 @@ export const STRING_QUESTIONS: Question[] = [
       '`casefold()` mutates strings in-place to save memory': 'Strings are never mutated in-place in Python.',
       '`lower()` is deprecated in Python 3.10+': 'lower() is definitely not deprecated and remains widely used.'
     },
-    hint: 'Think about Unicode characters in international alphabets.',
+    hint: 'Consider how multilingual scripts and Unicode standards define case-matching equivalence.',
     tags: ['casefold', 'lower', 'unicode'],
     isVerified: true
   },
@@ -599,7 +599,7 @@ export const STRING_QUESTIONS: Question[] = [
       'Hello World': 'That would be title(), which capitalizes each word.',
       'HELLO WORLD': 'That would be upper().'
     },
-    hint: 'capitalize() makes only the first character uppercase and forces all other characters to lowercase.',
+    hint: 'Review how capitalize treats characters that appear after the first letter.',
     tags: ['capitalize', 'case-conversion'],
     isVerified: true
   },
@@ -621,7 +621,7 @@ export const STRING_QUESTIONS: Question[] = [
       'python 3.11!': 'lower() would lowercase everything.',
       'PYtHoN 3.11!': 'Notice the first character "P" becomes lowercase "p".'
     },
-    hint: 'Every uppercase letter becomes lowercase, and every lowercase letter becomes uppercase.',
+    hint: 'Recall how swapcase transforms each cased character across a string.',
     tags: ['swapcase', 'case-conversion'],
     isVerified: true
   },
@@ -646,7 +646,7 @@ export const STRING_QUESTIONS: Question[] = [
       'isdigit() ⊆ isdecimal() ⊆ isnumeric()': 'isdecimal is strictly contained within isdigit, not vice-versa.',
       'They are aliases for the same function and always return identical values': 'They differ significantly for superscript numbers, fractions, and exotic digits.'
     },
-    hint: 'Decimal digits (0-9) are a subset of digits (including superscripts), which are a subset of numeric characters (including vulgar fractions).',
+    hint: 'Consider which numeric check has the strictest character requirements versus which is the most inclusive.',
     tags: ['isdecimal', 'isdigit', 'isnumeric', 'unicode'],
     isVerified: true
   },
@@ -673,7 +673,7 @@ export const STRING_QUESTIONS: Question[] = [
       'False False True': 'isdigit() returns True for superscripts.',
       'False False False': 'Superscript 2 is both a digit and numeric.'
     },
-    hint: 'Superscripts return False for isdecimal(), but True for isdigit() and isnumeric().',
+    hint: 'Consider whether superscript characters can be parsed as standard base-10 decimal literals.',
     tags: ['isdecimal', 'isdigit', 'superscript'],
     isVerified: true
   },
@@ -695,7 +695,7 @@ export const STRING_QUESTIONS: Question[] = [
       'None': 'Validation methods return True or False.',
       'AttributeError': 'isalpha() is a valid string method.'
     },
-    hint: 'Does isalpha() consider space characters to be alphabetic letters?',
+    hint: 'Check how isalpha treats non-alphabetic whitespace between words.',
     tags: ['isalpha', 'spaces', 'validation'],
     isVerified: true
   },
@@ -717,7 +717,7 @@ export const STRING_QUESTIONS: Question[] = [
       'None': 'isalnum() returns a boolean.',
       'ValueError': 'No error is raised.'
     },
-    hint: 'isalnum checks whether all characters are letters OR digits.',
+    hint: 'Examine whether all characters in the string are either alphabetic or numeric.',
     tags: ['isalnum', 'validation'],
     isVerified: true
   },
@@ -739,7 +739,7 @@ export const STRING_QUESTIONS: Question[] = [
       'False False': '"coffee" contains only standard 7-bit ASCII characters.',
       'True False': 'The order is café then coffee.'
     },
-    hint: 'ASCII characters have ordinals between 0 and 127.',
+    hint: 'Consider whether characters with accents or diacritics fit within the 7-bit ASCII code range.',
     tags: ['isascii', 'unicode'],
     isVerified: true
   },
@@ -761,7 +761,7 @@ export const STRING_QUESTIONS: Question[] = [
       'False False': '"second_var" is a perfectly valid identifier.',
       'True False': 'The first string starts with a digit.'
     },
-    hint: 'Can a Python variable name start with a number?',
+    hint: 'Review Python naming conventions regarding leading numerical digits in variable names.',
     tags: ['isidentifier', 'naming-rules'],
     isVerified: true
   },
@@ -786,7 +786,7 @@ export const STRING_QUESTIONS: Question[] = [
       'None, because Python does not evaluate keywords': 'isidentifier() returns a boolean.',
       'SyntaxError, because "def" cannot appear as a string': '"def" is a perfectly valid string.'
     },
-    hint: 'isidentifier() checks lexical syntax only; the keyword module checks if it is reserved.',
+    hint: 'Distinguish between whether a string matches valid lexical identifier format and whether it is a reserved keyword.',
     tags: ['isidentifier', 'keywords', 'subtle'],
     isVerified: true
   },
@@ -808,7 +808,7 @@ export const STRING_QUESTIONS: Question[] = [
       'False False': '"hello 123!" is lower because all of its letters are lowercase.',
       'False True': 'Reversed output.'
     },
-    hint: 'islower() requires at least one cased character in the string.',
+    hint: 'Consider whether strings containing only numbers or punctuation have any cased characters to validate.',
     tags: ['islower', 'cased-characters'],
     isVerified: true
   },
@@ -830,7 +830,7 @@ export const STRING_QUESTIONS: Question[] = [
       'False True': 'The first string is properly titlecased.',
       'False False': 'The first string returns True.'
     },
-    hint: 'istitle checks if each word starts with an uppercase letter followed by lowercase letters.',
+    hint: 'Inspect how each distinct word in both strings handles initial capitalization.',
     tags: ['istitle', 'validation'],
     isVerified: true
   },
@@ -852,7 +852,7 @@ export const STRING_QUESTIONS: Question[] = [
       'False False': 'Spaces, tabs, and newlines are all whitespace characters.',
       'False True': 'Empty strings return False.'
     },
-    hint: 'Does isspace() return True or False for an empty string with no characters?',
+    hint: 'Examine the minimum character count required for character-validation methods like isspace().',
     tags: ['isspace', 'empty-string'],
     isVerified: true
   },
@@ -874,7 +874,7 @@ export const STRING_QUESTIONS: Question[] = [
       'False False': 'Standard text with spaces is printable.',
       'False True': 'Standard text is printable.'
     },
-    hint: 'Control characters like newline \\n are not considered printable by isprintable().',
+    hint: 'Consider how escape sequences representing control characters are classified for printing purposes.',
     tags: ['isprintable', 'control-characters'],
     isVerified: true
   },
@@ -896,7 +896,7 @@ export const STRING_QUESTIONS: Question[] = [
       '*cat***': 'The padding is balanced on both sides.',
       '***cat***': 'That would have a total length of 9, not 7.'
     },
-    hint: 'Total width is 7, original length is 3. Remaining characters are distributed equally.',
+    hint: 'Calculate the total target width and see how remaining space is divided between each side of the word.',
     tags: ['center', 'alignment'],
     isVerified: true
   },
@@ -918,7 +918,7 @@ export const STRING_QUESTIONS: Question[] = [
       '-42--': 'That would be center().',
       '42': 'The string is padded up to width 5.'
     },
-    hint: 'Left justification keeps the content on the left and appends padding on the right.',
+    hint: 'Observe which side the content remains on and where the padding characters are placed.',
     tags: ['ljust', 'alignment'],
     isVerified: true
   },
@@ -940,7 +940,7 @@ export const STRING_QUESTIONS: Question[] = [
       '-00420': 'Zeros are inserted on the left, not the right.',
       '00-042': 'Zeros are placed after the sign, not split around it.'
     },
-    hint: 'zfill() knows about positive and negative signs at the beginning of the string.',
+    hint: 'Look closely at where zero padding is inserted when a leading mathematical sign is present.',
     tags: ['zfill', 'sign-aware', 'formatting'],
     isVerified: true
   },
@@ -962,7 +962,7 @@ export const STRING_QUESTIONS: Question[] = [
       '{1} loves {0}': 'The placeholders are evaluated and replaced.',
       'IndexError': 'Both indices 0 and 1 exist in the arguments list.'
     },
-    hint: '0-indexed positional arguments: index 0 is "Python", index 1 is "Guido".',
+    hint: 'Match each numeric index placeholder in the template to the corresponding 0-indexed argument passed into format().',
     tags: ['format', 'placeholders'],
     isVerified: true
   },
@@ -989,7 +989,7 @@ export const STRING_QUESTIONS: Question[] = [
       'TypeError: format_map takes keyword arguments only': 'format_map takes a single mapping argument directly.',
       'KeyError: name': 'Both keys "name" and "role" exist in the dictionary.'
     },
-    hint: 'format_map accepts a dictionary directly without unpacking.',
+    hint: 'Consider how format_map handles mapping containers like dictionaries without requiring double-star unpacking.',
     tags: ['format_map', 'dictionary'],
     isVerified: true
   },
@@ -1011,7 +1011,7 @@ export const STRING_QUESTIONS: Question[] = [
       '2': 'The tab is replaced by multiple spaces.',
       '8': 'It aligns to the next tab stop (4), not 8.'
     },
-    hint: 'Tabs align to column tab stops (multiples of tabsize).',
+    hint: 'Trace the column index where the tab begins and compute the distance to the next tab-stop multiple.',
     tags: ['expandtabs', 'tabs'],
     isVerified: true
   },
@@ -1033,7 +1033,7 @@ export const STRING_QUESTIONS: Question[] = [
       'h3ll4': '\'e\' maps to \'2\', \'i\' maps to \'3\'.',
       'hello': 'The characters are translated by the table.'
     },
-    hint: 'Track the character mapping: a->1, e->2, i->3, o->4, u->5.',
+    hint: 'Trace the 1-to-1 character index pairings between the source vowel string and the numerical replacement string.',
     tags: ['maketrans', 'translate', 'cipher'],
     isVerified: true
   },
@@ -1060,7 +1060,7 @@ export const STRING_QUESTIONS: Question[] = [
       'pyth1n m2st3ry': 'No replacement string was provided for vowels; they were marked for deletion.',
       'TypeError: maketrans requires at least 1 argument': 'maketrans can take three string arguments: from, to, and delete.'
     },
-    hint: 'Characters in the 3rd argument of maketrans are mapped to None (deleted).',
+    hint: 'Recall the special purpose of passing a third parameter to maketrans and its effect on targeted characters.',
     tags: ['maketrans', 'translate', 'deletion'],
     isVerified: true
   },
@@ -1080,7 +1080,7 @@ export const STRING_QUESTIONS: Question[] = [
       'bytearray': 'bytearray is mutable; encode() returns an immutable bytes object.',
       'memoryview': 'memoryview is a buffer view wrapper, not the direct return type.'
     },
-    hint: 'Encoding transforms text (str) into binary data.',
+    hint: 'Consider what data type Python 3 uses to represent raw immutable binary sequences of encoded text.',
     tags: ['encode', 'bytes', 'encoding'],
     isVerified: true
   },
@@ -1102,7 +1102,7 @@ export const STRING_QUESTIONS: Question[] = [
       'p': 'This would be word[0].',
       'IndexError': 'Slicing never raises an IndexError in Python.'
     },
-    hint: 'A step of -1 iterates through the sequence backwards.',
+    hint: 'Pay attention to how the negative step value affects traversal orientation across sequence elements.',
     tags: ['slicing', 'reverse'],
     isVerified: true
   },
@@ -1124,7 +1124,7 @@ export const STRING_QUESTIONS: Question[] = [
       '[hello]': 'The indices 10 to 20 start well past the end of "hello".',
       '[None]': 'Slicing returns strings, never None.'
     },
-    hint: 'Slices in Python never raise IndexError for out-of-range bounds.',
+    hint: 'Compare how sequence slicing tolerates extreme index values compared to direct element indexing.',
     tags: ['slicing', 'bounds', 'IndexError'],
     isVerified: true
   },
@@ -1151,7 +1151,7 @@ export const STRING_QUESTIONS: Question[] = [
       '"" (empty string)': 'Slicing text[5:6] would return empty string, but indexing text[5] raises an exception.',
       'AttributeError': 'Index errors are IndexErrors.'
     },
-    hint: 'Directly indexing past the end of a string raises an exception.',
+    hint: 'Examine whether single-index subscripting checks sequence boundaries strictly.',
     tags: ['indexing', 'IndexError'],
     isVerified: true
   },
@@ -1173,7 +1173,7 @@ export const STRING_QUESTIONS: Question[] = [
       'O N': 'word[-1] is printed first (N), followed by word[-2] (O).',
       'N P': 'word[-2] is O, not P.'
     },
-    hint: 'Index -1 is always the last character in the sequence.',
+    hint: 'Recall from which end of a sequence negative integers begin indexing.',
     tags: ['indexing', 'negative-indexing'],
     isVerified: true
   },
@@ -1195,7 +1195,7 @@ export const STRING_QUESTIONS: Question[] = [
       'ha3': 'The number is an operator operand, not appended as text.',
       'TypeError: cannot multiply sequence by non-int of type str': 'Multiplying a string by an integer is valid in Python.'
     },
-    hint: 'String * integer repeats the string.',
+    hint: 'Consider how sequence types in Python interpret arithmetic multiplication operators.',
     tags: ['operators', 'repetition'],
     isVerified: true
   },
@@ -1217,7 +1217,7 @@ export const STRING_QUESTIONS: Question[] = [
       'False False': '"lop" is present in "developer".',
       'False True': 'Reversed output.'
     },
-    hint: 'The in operator checks for substring existence.',
+    hint: 'Check whether each substring appears consecutively within the target string.',
     tags: ['membership', 'operators', 'in'],
     isVerified: true
   },
@@ -1237,7 +1237,7 @@ export const STRING_QUESTIONS: Question[] = [
       's.isupper()': 'isupper() is a valid method that checks if all letters are uppercase.',
       's.casefold()': 'casefold() is a valid method for aggressive caseless matching.'
     },
-    hint: 'Think about whether Python uses upper() or uppercase().',
+    hint: 'Compare standard Python method naming conventions with identifiers commonly used in other languages.',
     tags: ['valid-method', 'upper', 'AttributeError'],
     isVerified: true
   },
@@ -1257,7 +1257,7 @@ export const STRING_QUESTIONS: Question[] = [
       '"subscription".has("sub")': 'has() does not exist on Python str.',
       '"subscription".includes("sub")': 'includes() is a JavaScript method, not Python.'
     },
-    hint: 'Python prefers clean keywords like in over method calls for membership.',
+    hint: 'Think about whether Python relies on built-in language operators or object methods for membership checks.',
     tags: ['in', 'contains', 'idiomatic-python'],
     isVerified: true
   },
@@ -1294,7 +1294,7 @@ export const STRING_QUESTIONS: Question[] = [
     incorrectExplanations: {
       'center()': 'center() changes padding and alignment, not the case of letters.'
     },
-    hint: 'All except the alignment method change character casing.',
+    hint: 'Distinguish methods that modify character casing from those that add padding or spacing.',
     tags: ['multiple-choice', 'casing'],
     isVerified: true
   },
@@ -1312,7 +1312,7 @@ export const STRING_QUESTIONS: Question[] = [
     incorrectExplanations: {
       'True': 'Strings can never be modified in-place in Python.'
     },
-    hint: 'Are strings mutable or immutable in Python?',
+    hint: 'Recall whether primitive sequence types like str allow in-place modification of their buffer.',
     tags: ['true-false', 'immutability'],
     isVerified: true
   },
@@ -1330,7 +1330,7 @@ export const STRING_QUESTIONS: Question[] = [
     incorrectExplanations: {
       'True': 'Python raises ValueError: empty separator when given an empty delimiter string.'
     },
-    hint: 'Can split() accept an empty string as a delimiter in Python?',
+    hint: 'Consider whether Python string splitting accepts a zero-length delimiter string.',
     tags: ['true-false', 'split', 'empty-separator'],
     isVerified: true
   },
@@ -1355,7 +1355,7 @@ export const STRING_QUESTIONS: Question[] = [
       'Square brackets: `["line1", "line2"]`': 'Square brackets create a list of strings, not a single multi-line string.',
       'Backticks: `` `...` ``': 'Backticks are invalid syntax for strings in modern Python.'
     },
-    hint: 'Python uses three consecutive single or double quotation marks.',
+    hint: 'Think of the multi-character quote delimiter standardly used for docstrings and multi-line text.',
     tags: ['creation', 'quotes', 'triple-quotes'],
     isVerified: true
   },
@@ -1377,7 +1377,7 @@ export const STRING_QUESTIONS: Question[] = [
       'SyntaxError': 'Raw string literals with prefix r are standard Python.',
       'TypeError': 'Both expressions are valid strings.'
     },
-    hint: 'Raw strings treat backslashes as literal characters without interpreting escape codes.',
+    hint: 'Compare how backslashes are escaped in standard string literals versus raw string literals.',
     tags: ['raw-strings', 'escape-characters'],
     isVerified: true
   },
@@ -1399,7 +1399,7 @@ export const STRING_QUESTIONS: Question[] = [
       '5 + 10 = {x + y}': 'The math expression {x + y} is evaluated.',
       'SyntaxError': 'Valid f-string syntax.'
     },
-    hint: 'Expressions inside curly brackets in f-strings are evaluated and formatted.',
+    hint: 'Consider how Python evaluates code contained within replacement fields in formatted string literals.',
     tags: ['f-strings', 'formatting'],
     isVerified: true
   },
@@ -1421,7 +1421,7 @@ export const STRING_QUESTIONS: Question[] = [
       'BF': 'A negative step moves backwards from high indices to lower indices.',
       'HFD': 'Index 6 is \'G\', not \'H\' (which is at index 7).'
     },
-    hint: 'Start at index 6, decrement by 2 each step, stop before index 1.',
+    hint: 'Trace the indices traversed from start down to stop, noting which index is excluded.',
     tags: ['slicing', 'negative-step', 'bounds'],
     isVerified: true
   },
@@ -1443,7 +1443,7 @@ export const STRING_QUESTIONS: Question[] = [
       '3.15': 'The third decimal digit is 1, so it does not round up to 3.15.',
       '3.1': 'That would be :.1f.'
     },
-    hint: ':.2f rounds to 2 decimal places.',
+    hint: 'Examine the precision specifier and the rounding rule applied to the succeeding digit.',
     tags: ['f-strings', 'formatting', 'floating-point'],
     isVerified: true
   },
@@ -1465,7 +1465,7 @@ export const STRING_QUESTIONS: Question[] = [
       'XbrXcXdXbrX': '\'b\' is mapped to None, which deletes it, not retains it.',
       'TypeError: dict not allowed': 'maketrans accepts a dictionary mapping characters or ordinals.'
     },
-    hint: 'Mapping to None in maketrans deletes the character.',
+    hint: 'Check what translation operation occurs when a character key is associated with None in the mapping dictionary.',
     tags: ['maketrans', 'translate', 'deletion'],
     isVerified: true
   },
@@ -1490,7 +1490,7 @@ export const STRING_QUESTIONS: Question[] = [
       'partition raises ValueError if the separator is absent': 'partition never raises ValueError when the separator is absent.',
       'There is no difference in structure or return types': 'They return different types (tuple vs list) and different element counts.'
     },
-    hint: 'partition always produces exactly 3 elements and retains the delimiter.',
+    hint: 'Compare the return container type and whether the delimiter character is preserved in the output.',
     tags: ['partition', 'split', 'comparison'],
     isVerified: true
   }

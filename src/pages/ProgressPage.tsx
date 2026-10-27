@@ -38,10 +38,10 @@ export const ProgressPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          <h2 className="text-2xl font-bold tracking-tight text-[#242424] dark:text-[#EAE6DF]">
             Learning Progress & Analytics
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          <p className="text-sm text-[#77736D] mt-1">
             Real data from your interactive quiz sessions, tracking question volume, accuracy, and curriculum coverage.
           </p>
         </div>
@@ -59,53 +59,53 @@ export const ProgressPage: React.FC = () => {
       {/* KPI Overview Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="p-5">
-          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase">
+          <div className="flex items-center justify-between text-[#77736D] text-xs font-semibold uppercase">
             <span>Overall Accuracy</span>
-            <TrendingUp className="w-4 h-4 text-emerald-500" />
+            <TrendingUp className="w-4 h-4 text-[#287A52]" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-slate-900 dark:text-white mt-3">
+          <div className="text-3xl font-bold font-mono text-[#242424] dark:text-[#EAE6DF] mt-3">
             {accuracy}%
           </div>
-          <div className="text-xs text-slate-500 mt-1">
+          <div className="text-xs text-[#77736D] mt-1">
             Based on {totalAnswered} questions
           </div>
         </Card>
 
         <Card className="p-5">
-          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase">
+          <div className="flex items-center justify-between text-[#77736D] text-xs font-semibold uppercase">
             <span>Correct Answers</span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+            <CheckCircle2 className="w-4 h-4 text-[#287A52]" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-emerald-600 dark:text-emerald-400 mt-3">
+          <div className="text-3xl font-bold font-mono text-[#287A52] mt-3">
             {totalCorrect}
           </div>
-          <div className="text-xs text-slate-500 mt-1">
+          <div className="text-xs text-[#77736D] mt-1">
             {totalIncorrect} incorrect • {totalSkipped} skipped
           </div>
         </Card>
 
         <Card className="p-5">
-          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase">
+          <div className="flex items-center justify-between text-[#77736D] text-xs font-semibold uppercase">
             <span>Learning Streak</span>
-            <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
+            <Flame className="w-4 h-4 text-[#C96B45]" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-amber-500 mt-3">
+          <div className="text-3xl font-bold font-mono text-[#C96B45] mt-3">
             {progress.streak.currentStreak} Days
           </div>
-          <div className="text-xs text-slate-500 mt-1">
+          <div className="text-xs text-[#77736D] mt-1">
             Personal best: {progress.streak.bestStreak} days
           </div>
         </Card>
 
         <Card className="p-5">
-          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase">
+          <div className="flex items-center justify-between text-[#77736D] text-xs font-semibold uppercase">
             <span>Topics Mastered</span>
-            <Award className="w-4 h-4 text-brand-500" />
+            <Award className="w-4 h-4 text-[#C96B45]" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-brand-600 dark:text-brand-400 mt-3">
-            {completedTopicsCount} <span className="text-xs font-normal text-slate-400">/ {availableTopics.length}</span>
+          <div className="text-3xl font-bold font-mono text-[#C96B45] mt-3">
+            {completedTopicsCount} <span className="text-xs font-normal text-[#77736D]">/ {availableTopics.length}</span>
           </div>
-          <div className="text-xs text-slate-500 mt-1">
+          <div className="text-xs text-[#77736D] mt-1">
             ≥ 80% accuracy with 5+ Qs
           </div>
         </Card>
@@ -113,17 +113,17 @@ export const ProgressPage: React.FC = () => {
 
       {/* Topic by Topic Performance Table */}
       <Card className="p-6">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+        <h3 className="text-base font-bold text-[#242424] dark:text-[#EAE6DF] mb-4">
           Topic Mastery Breakdown
         </h3>
 
         {availableTopics.length === 0 ? (
-          <p className="text-sm text-slate-500">No active topics found.</p>
+          <p className="text-sm text-[#77736D]">No active topics found.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs sm:text-sm">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-semibold uppercase text-[11px] tracking-wider">
+                <tr className="border-b border-[#E8E5DF] dark:border-[#2C2A26] text-[#77736D] font-semibold uppercase text-[11px] tracking-wider">
                   <th className="pb-3 pl-2">Topic</th>
                   <th className="pb-3 px-3">Difficulty</th>
                   <th className="pb-3 px-3">Questions Answered</th>
@@ -131,7 +131,7 @@ export const ProgressPage: React.FC = () => {
                   <th className="pb-3 pr-2 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
+              <tbody className="divide-y divide-[#E8E5DF] dark:divide-[#2C2A26]">
                 {availableTopics.map((topic) => {
                   const stats = progress.topicStats[topic.id];
                   const answered = stats?.answered || 0;
@@ -139,10 +139,10 @@ export const ProgressPage: React.FC = () => {
                   const topicAcc = calculateAccuracy(correct, answered);
 
                   return (
-                    <tr key={topic.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                      <td className="py-3.5 pl-2 font-medium text-slate-900 dark:text-white">
+                    <tr key={topic.id} className="hover:bg-[#FAF9F6] dark:hover:bg-[#282623] transition-colors">
+                      <td className="py-3.5 pl-2 font-medium text-[#242424] dark:text-[#EAE6DF]">
                         <div>{topic.title}</div>
-                        <div className="text-[11px] text-slate-400">{topic.category}</div>
+                        <div className="text-[11px] text-[#77736D]">{topic.category}</div>
                       </td>
                       <td className="py-3.5 px-3">
                         <Badge
@@ -160,15 +160,15 @@ export const ProgressPage: React.FC = () => {
                       </td>
                       <td className="py-3.5 px-3 font-mono">
                         {answered > 0 ? (
-                          <span>{answered} ({correct} correct)</span>
+                          <span className="text-[#242424] dark:text-[#EAE6DF]">{answered} ({correct} correct)</span>
                         ) : (
-                          <span className="text-slate-400 italic">Not attempted</span>
+                          <span className="text-[#77736D] italic">Not attempted</span>
                         )}
                       </td>
                       <td className="py-3.5 px-3 min-w-[140px]">
                         {answered > 0 ? (
                           <div className="space-y-1">
-                            <div className="flex justify-between font-mono font-bold text-xs">
+                            <div className="flex justify-between font-mono font-bold text-xs text-[#242424] dark:text-[#EAE6DF]">
                               <span>{topicAcc}%</span>
                             </div>
                             <ProgressBar
@@ -178,7 +178,7 @@ export const ProgressPage: React.FC = () => {
                             />
                           </div>
                         ) : (
-                          <span className="text-slate-400 font-mono">-</span>
+                          <span className="text-[#77736D] font-mono">-</span>
                         )}
                       </td>
                       <td className="py-3.5 pr-2 text-right">
@@ -201,12 +201,12 @@ export const ProgressPage: React.FC = () => {
 
       {/* Quiz History Log */}
       <Card className="p-6">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+        <h3 className="text-base font-bold text-[#242424] dark:text-[#EAE6DF] mb-4">
           Recent Quiz Sessions ({progress.quizHistory.length})
         </h3>
 
         {progress.quizHistory.length === 0 ? (
-          <div className="p-6 text-center text-slate-500 text-sm">
+          <div className="p-6 text-center text-[#77736D] text-sm">
             No quiz attempts recorded yet.
           </div>
         ) : (
@@ -223,17 +223,17 @@ export const ProgressPage: React.FC = () => {
               return (
                 <div
                   key={record.id}
-                  className="p-4 rounded-xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs sm:text-sm"
+                  className="p-4 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs sm:text-sm"
                 >
                   <div className="space-y-0.5">
-                    <div className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <div className="font-semibold text-[#242424] dark:text-[#EAE6DF] flex items-center gap-2">
                       <span className="capitalize">{record.mode} Quiz</span>
-                      <span className="text-slate-400 font-normal">•</span>
-                      <span className="text-slate-600 dark:text-slate-300">
+                      <span className="text-[#77736D] font-normal">•</span>
+                      <span className="text-[#77736D]">
                         {topic ? topic.title : 'Mixed Curriculum'}
                       </span>
                     </div>
-                    <div className="text-xs text-slate-400 flex items-center gap-3">
+                    <div className="text-xs text-[#77736D] flex items-center gap-3">
                       <span>{dateFormatted}</span>
                       <span>•</span>
                       <span className="flex items-center gap-1">
@@ -245,10 +245,10 @@ export const ProgressPage: React.FC = () => {
 
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <div className="font-mono font-bold text-base text-slate-900 dark:text-white">
+                      <div className="font-mono font-bold text-base text-[#242424] dark:text-[#EAE6DF]">
                         {record.accuracy}%
                       </div>
-                      <div className="text-[11px] text-slate-400 font-mono">
+                      <div className="text-[11px] text-[#77736D] font-mono">
                         {record.correctAnswers} / {record.totalQuestions} correct
                       </div>
                     </div>

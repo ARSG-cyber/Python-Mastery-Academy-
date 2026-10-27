@@ -10,7 +10,7 @@ export const STORAGE_KEY = 'python_mastery_academy_progress_v1';
 export const CURRENT_SCHEMA_VERSION = 1;
 
 export const DEFAULT_USER_SETTINGS: UserSettings = {
-  theme: 'system',
+  theme: 'light',
   soundEnabled: true,
   preferredQuestionCount: 10,
   defaultDifficulty: 'all',

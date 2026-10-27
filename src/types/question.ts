@@ -12,6 +12,11 @@ export type QuestionType =
 
 export type QuestionDifficulty = 'beginner' | 'intermediate' | 'advanced';
 
+export interface QuestionOption {
+  id: string;
+  text: string;
+}
+
 export interface Question {
   id: string;
   topicId: string;
@@ -19,10 +24,11 @@ export interface Question {
   difficulty: QuestionDifficulty;
   questionText: string;
   questionType: QuestionType;
-  options?: string[];
-  correctAnswer: string | string[]; // string for single_choice/true_false/code_output, string[] for multiple_choice
+  options?: QuestionOption[];
+  correctOptionId?: string | string[]; // stable option id (string for single, string[] for multiple)
+  correctAnswer: string | string[]; // answer text preserved for display/fallback
   explanation: string;
-  incorrectExplanations?: Record<string, string>;
+  incorrectExplanations?: Record<string, string>; // keyed by optionId or option text
   codeSnippet?: string;
   expectedOutput?: string;
   hint?: string;
@@ -32,7 +38,15 @@ export interface Question {
   pythonVersionReq?: string;
 }
 
+export interface RawQuestion extends Omit<Question, 'options'> {
+  options?: (QuestionOption | string)[];
+}
+
 export interface QuestionValidationResult {
   isValid: boolean;
   errors: string[];
+  distribution?: {
+    totalEvaluated: number;
+    positionCounts: Record<number, number>;
+  };
 }

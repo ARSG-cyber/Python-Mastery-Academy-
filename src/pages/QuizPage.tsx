@@ -69,6 +69,7 @@ export const QuizPage: React.FC = () => {
       submissionStates: {},
       skippedStates: {},
       hintsUsed: {},
+      displayedOptions: selection.displayedOptions,
       startedAt: new Date().toISOString(),
       timeRemainingSeconds: timerEnabled ? minutes * 60 : undefined,
       timeSpentSeconds: 0,
@@ -311,15 +312,15 @@ export const QuizPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-5 animate-fade-in">
+    <div className="max-w-3xl mx-auto space-y-4 animate-fade-in">
       {/* Top Progress & Timer Bar */}
-      <div className="flex items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl px-5 py-3 shadow-subtle">
+      <div className="flex items-center justify-between gap-4 bg-white dark:bg-[#1F1E1C] border border-[#E8E5DF] dark:border-[#2C2A26] rounded-xl px-5 py-3 transition-colors">
         <div className="flex items-center gap-3">
-          <span className="font-mono text-sm font-bold text-slate-800 dark:text-slate-100">
-            Q {session.currentIndex + 1}
-            <span className="text-slate-400 font-normal"> / {session.questionIds.length}</span>
+          <span className="font-mono text-xs sm:text-sm font-semibold text-[#242424] dark:text-[#FAF9F6]">
+            Question {session.currentIndex + 1}
+            <span className="text-[#77736D] font-normal"> of {session.questionIds.length}</span>
           </span>
-          <span className="text-xs text-slate-500 font-medium hidden sm:inline">
+          <span className="text-xs text-[#77736D] font-normal hidden sm:inline">
             ({progressPercentage}% completed)
           </span>
         </div>
@@ -338,12 +339,14 @@ export const QuizPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Interactive Question Viewer */}
+      {/* Main Interactive Question Viewer with question key for state isolation */}
       <QuestionViewer
+        key={currentQuestionId}
         question={currentQuestion}
         currentIndex={session.currentIndex}
         totalQuestions={session.questionIds.length}
         topicTitle={topicObj?.title || 'Python Mastery'}
+        displayedOptions={session.displayedOptions?.[currentQuestionId]}
         selectedAnswer={currentAnswer}
         isSubmitted={isSubmitted}
         isSkipped={isSkipped}

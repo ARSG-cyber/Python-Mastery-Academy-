@@ -1,4 +1,4 @@
-import { Question, QuestionDifficulty } from '../types/question';
+import { Question, QuestionDifficulty, QuestionOption } from '../types/question';
 import { ALL_QUESTIONS } from '../data/questions';
 import { QuizMode } from '../types/progress';
 
@@ -8,6 +8,7 @@ export interface QuestionSelectionOptions {
   difficulty?: 'all' | QuestionDifficulty;
   count?: number;
   revisionQuestionIds?: string[];
+  rng?: () => number;
 }
 
 export interface QuestionSelectionResult {
@@ -15,25 +16,51 @@ export interface QuestionSelectionResult {
   requestedCount: number;
   availableCount: number;
   notice?: string;
+  displayedOptions: Record<string, QuestionOption[]>;
 }
 
 /**
- * Fisher-Yates shuffle for unbiased random shuffling.
+ * Unbiased Fisher-Yates shuffle algorithm.
+ * Accepts an optional injectable RNG for deterministic testing.
+ * Never mutates the source array.
  */
-function shuffleArray<T>(array: T[]): T[] {
+export function shuffleArray<T>(array: readonly T[], rng: () => number = Math.random): T[] {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
 }
 
 /**
+ * Returns options prepared for display.
+ * Shuffles choice-based questions with Fisher-Yates while preserving true/false order.
+ */
+export function getDisplayOptions(
+  question: Question,
+  rng: () => number = Math.random
+): QuestionOption[] {
+  if (!question.options || question.options.length === 0) {
+    return [];
+  }
+
+  // Preserve conventional True/False order
+  if (question.questionType === 'true_false') {
+    return [...question.options];
+  }
+
+  // Unbiased shuffle for multiple-choice and other choice questions
+  return shuffleArray(question.options, rng);
+}
+
+/**
  * Selects questions according to mode, topic, difficulty, and requested count.
+ * Generates pre-shuffled display options for each question so display order remains
+ * stable throughout the session navigation.
  */
 export function selectQuestions(options: QuestionSelectionOptions): QuestionSelectionResult {
-  const { mode, topicId, difficulty = 'all', count, revisionQuestionIds = [] } = options;
+  const { mode, topicId, difficulty = 'all', count, revisionQuestionIds = [], rng = Math.random } = options;
 
   let pool: Question[] = [];
 
@@ -55,7 +82,6 @@ export function selectQuestions(options: QuestionSelectionOptions): QuestionSele
     pool = hardQuestions.length > 0 ? hardQuestions : pool;
   } else if (difficulty && difficulty !== 'all') {
     const filtered = pool.filter(q => q.difficulty === difficulty);
-    // If not enough of exact difficulty, fall back to whole pool
     if (filtered.length >= 3) {
       pool = filtered;
     }
@@ -97,6 +123,7 @@ export function selectQuestions(options: QuestionSelectionOptions): QuestionSele
       requestedCount: targetCount,
       availableCount: 0,
       notice: 'No questions currently available matching the selected criteria.',
+      displayedOptions: {},
     };
   }
 
@@ -104,14 +131,21 @@ export function selectQuestions(options: QuestionSelectionOptions): QuestionSele
     notice = `This selection has ${availableCount} question${availableCount === 1 ? '' : 's'} available (fewer than the requested ${targetCount}). Using all available questions.`;
   }
 
-  // Shuffle and take requested count without duplicates
-  const shuffled = shuffleArray(pool);
-  const selected = shuffled.slice(0, Math.min(targetCount, availableCount));
+  // Shuffle questions order
+  const shuffledQuestions = shuffleArray(pool, rng);
+  const selected = shuffledQuestions.slice(0, Math.min(targetCount, availableCount));
+
+  // Generate shuffled options for each question
+  const displayedOptions: Record<string, QuestionOption[]> = {};
+  for (const q of selected) {
+    displayedOptions[q.id] = getDisplayOptions(q, rng);
+  }
 
   return {
     questions: selected,
     requestedCount: targetCount,
     availableCount,
     notice,
+    displayedOptions,
   };
 }

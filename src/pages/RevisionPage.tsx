@@ -48,17 +48,17 @@ export const RevisionPage: React.FC = () => {
   return (
     <div className="space-y-8 animate-fade-in max-w-5xl mx-auto">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#0d162d] to-[#1a233d] border border-slate-800 rounded-3xl p-6 sm:p-10 text-white shadow-lg space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 border border-brand-400/30 text-brand-300 text-xs font-semibold">
+      <div className="bg-white dark:bg-[#201E1C] border border-[#E8E5DF] dark:border-[#2C2A26] rounded-2xl p-6 sm:p-8 space-y-4 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#FAF0EB] dark:bg-[#33170B] border border-[#EBC0AF] dark:border-[#5A2B18] text-[#C96B45] text-xs font-semibold">
           <BrainCircuit className="w-4 h-4" />
           <span>Active Spaced Retrieval Engine</span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#242424] dark:text-[#EAE6DF]">
           Targeted Revision Mode
         </h2>
 
-        <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+        <p className="text-sm text-[#77736D] max-w-2xl leading-relaxed">
           The fastest way to master Python is repeatedly confronting the edge cases, syntax nuances, and method semantics you missed before.
         </p>
 
@@ -79,9 +79,9 @@ export const RevisionPage: React.FC = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-slate-700 text-slate-200 hover:bg-slate-800"
+              className="border-[#E8E5DF] dark:border-[#2C2A26] text-[#242424] dark:text-[#EAE6DF] hover:bg-[#F3F1EC] dark:hover:bg-[#282623]"
               onClick={() => handleStartRevision(weakestTopic.id)}
-              icon={<Target className="w-4 h-4 text-amber-400" />}
+              icon={<Target className="w-4 h-4 text-[#C96B45]" />}
             >
               Practice Weakest: {weakestTopic.title}
             </Button>
@@ -92,37 +92,37 @@ export const RevisionPage: React.FC = () => {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <Card className="p-6">
-          <div className="text-xs font-semibold uppercase text-slate-500 tracking-wider">
+          <div className="text-xs font-semibold uppercase text-[#77736D] tracking-wider">
             Active Revision Queue
           </div>
-          <div className="text-3xl font-extrabold font-mono text-rose-500 mt-2">
+          <div className="text-3xl font-bold font-mono text-[#B94B45] mt-2">
             {activeMistakes.length}
           </div>
-          <div className="text-xs text-slate-500 mt-1">
+          <div className="text-xs text-[#77736D] mt-1">
             Questions waiting for re-testing
           </div>
         </Card>
 
         <Card className="p-6">
-          <div className="text-xs font-semibold uppercase text-slate-500 tracking-wider">
+          <div className="text-xs font-semibold uppercase text-[#77736D] tracking-wider">
             Concepts Mastered
           </div>
-          <div className="text-3xl font-extrabold font-mono text-emerald-500 mt-2">
+          <div className="text-3xl font-bold font-mono text-[#287A52] mt-2">
             {understoodCount}
           </div>
-          <div className="text-xs text-slate-500 mt-1">
+          <div className="text-xs text-[#77736D] mt-1">
             Marked as understood & resolved
           </div>
         </Card>
 
         <Card className="p-6">
-          <div className="text-xs font-semibold uppercase text-slate-500 tracking-wider">
+          <div className="text-xs font-semibold uppercase text-[#77736D] tracking-wider">
             Total Logged Errors
           </div>
-          <div className="text-3xl font-extrabold font-mono text-brand-600 dark:text-brand-400 mt-2">
+          <div className="text-3xl font-bold font-mono text-[#C96B45] mt-2">
             {mistakesList.length}
           </div>
-          <div className="text-xs text-slate-500 mt-1">
+          <div className="text-xs text-[#77736D] mt-1">
             Across all practice sessions
           </div>
         </Card>
@@ -130,7 +130,7 @@ export const RevisionPage: React.FC = () => {
 
       {/* Breakdown by Topic */}
       <div className="space-y-4">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center justify-between">
+        <h3 className="text-lg font-bold text-[#242424] dark:text-[#EAE6DF] flex items-center justify-between">
           <span>Active Revision by Topic</span>
           <Button
             size="sm"
@@ -144,12 +144,12 @@ export const RevisionPage: React.FC = () => {
         </h3>
 
         {topicEntries.length === 0 ? (
-          <Card className="p-8 text-center bg-slate-50/50 dark:bg-slate-900/50 border-dashed border-2">
-            <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-2" />
-            <h4 className="font-bold text-slate-900 dark:text-white text-base">
+          <Card className="p-8 text-center border-dashed border">
+            <CheckCircle2 className="w-10 h-10 text-[#287A52] mx-auto mb-2" />
+            <h4 className="font-semibold text-[#242424] dark:text-[#EAE6DF] text-base">
               Revision Queue is Clear!
             </h4>
-            <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">
+            <p className="text-xs text-[#77736D] max-w-sm mx-auto mt-1 mb-4">
               You have no active questions in your revision notebook. Continue taking quizzes to automatically capture areas for future practice.
             </p>
             <Button variant="primary" size="sm" onClick={() => navigate('/quiz-setup')}>
@@ -161,13 +161,13 @@ export const RevisionPage: React.FC = () => {
             {topicEntries.map((item) => (
               <Card
                 key={item.id}
-                className="p-5 flex items-center justify-between hover:border-brand-300 dark:hover:border-brand-700 transition-colors"
+                className="p-5 flex items-center justify-between hover:border-[#C96B45] transition-colors"
               >
                 <div>
-                  <h4 className="text-base font-bold text-slate-900 dark:text-white">
+                  <h4 className="text-base font-semibold text-[#242424] dark:text-[#EAE6DF]">
                     {item.title}
                   </h4>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="text-xs text-[#77736D] mt-0.5">
                     {item.count} question{item.count === 1 ? '' : 's'} flagged for revision
                   </p>
                 </div>
@@ -187,21 +187,21 @@ export const RevisionPage: React.FC = () => {
       </div>
 
       {/* Pedagogical Why Revision Works Section */}
-      <Card className="p-6 sm:p-8 bg-slate-100/60 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800">
-        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
+      <Card className="p-6 sm:p-8 bg-[#F3F1EC]/60 dark:bg-[#282623]/60 border-[#E8E5DF] dark:border-[#2C2A26]">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-[#77736D] mb-3">
           Why Spaced Revision Produces Real Python Mastery
         </h4>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs sm:text-sm text-slate-600 dark:text-slate-400 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs sm:text-sm text-[#77736D] pt-1">
           <div>
-            <span className="font-bold text-slate-900 dark:text-white block mb-1">1. Overcomes the Forgetting Curve</span>
+            <span className="font-semibold text-[#242424] dark:text-[#EAE6DF] block mb-1">1. Overcomes the Forgetting Curve</span>
             Reviewing concepts after making mistakes triggers strong cognitive consolidation, cementing tricky syntax in long-term memory.
           </div>
           <div>
-            <span className="font-bold text-slate-900 dark:text-white block mb-1">2. Eliminates Python Illusions</span>
+            <span className="font-semibold text-[#242424] dark:text-[#EAE6DF] block mb-1">2. Eliminates Python Illusions</span>
             Predicting code output forces you to parse like the Python interpreter instead of passively recognizing keywords.
           </div>
           <div>
-            <span className="font-bold text-slate-900 dark:text-white block mb-1">3. Pinpoints Tricky Edge Cases</span>
+            <span className="font-semibold text-[#242424] dark:text-[#EAE6DF] block mb-1">3. Pinpoints Tricky Edge Cases</span>
             Distinguishing string immutability, `find()` vs `index()`, and Unicode digits requires deliberate targeted recall.
           </div>
         </div>

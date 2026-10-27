@@ -50,7 +50,7 @@ export const MistakesPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3">
+          <h2 className="text-2xl font-bold tracking-tight text-[#242424] dark:text-[#EAE6DF] flex items-center gap-3">
             <span>Mistakes Notebook</span>
             {activeMistakesCount > 0 && (
               <Badge variant="danger" size="md">
@@ -58,7 +58,7 @@ export const MistakesPage: React.FC = () => {
               </Badge>
             )}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          <p className="text-sm text-[#77736D] mt-1">
             Turn errors into understanding. Review and re-test questions you missed until concepts become second nature.
           </p>
         </div>
@@ -76,15 +76,15 @@ export const MistakesPage: React.FC = () => {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl">
+      <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-white dark:bg-[#201E1C] border border-[#E8E5DF] dark:border-[#2C2A26] rounded-xl">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Filters:</span>
+          <Filter className="w-4 h-4 text-[#77736D]" />
+          <span className="text-xs font-semibold text-[#242424] dark:text-[#EAE6DF]">Filters:</span>
 
           <select
             value={selectedTopic}
             onChange={(e) => setSelectedTopic(e.target.value)}
-            className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="px-3 py-1.5 rounded-lg border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-xs font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45]"
           >
             <option value="all">All Topics</option>
             {TOPICS.filter(t => t.isAvailable).map((t) => (
@@ -97,7 +97,7 @@ export const MistakesPage: React.FC = () => {
           <select
             value={filterUnderstood}
             onChange={(e) => setFilterUnderstood(e.target.value as 'active' | 'understood' | 'all')}
-            className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="px-3 py-1.5 rounded-lg border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#201E1C] text-xs font-medium text-[#242424] dark:text-[#EAE6DF] focus:outline-none focus:ring-1 focus:ring-[#C96B45]"
           >
             <option value="active">Needs Practice (Active)</option>
             <option value="understood">Marked as Understood</option>
@@ -105,7 +105,7 @@ export const MistakesPage: React.FC = () => {
           </select>
         </div>
 
-        <div className="text-xs text-slate-500 font-medium">
+        <div className="text-xs text-[#77736D] font-medium">
           Showing {filteredMistakes.length} recorded mistake{filteredMistakes.length === 1 ? '' : 's'}
         </div>
       </div>
@@ -139,11 +139,11 @@ export const MistakesPage: React.FC = () => {
                 key={entry.questionId}
                 className={`p-6 transition-all ${
                   entry.isUnderstood
-                    ? 'border-emerald-200/80 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10'
-                    : 'border-slate-200/80 dark:border-slate-800'
+                    ? 'border-[#C3E4D4] dark:border-[#206342] bg-[#EBF5F0]/30 dark:bg-[#152E20]/20'
+                    : 'border-[#E8E5DF] dark:border-[#2C2A26]'
                 }`}
               >
-                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E8E5DF] dark:border-[#2C2A26]">
                   <div className="flex items-center gap-2">
                     <Badge variant="primary" size="sm">
                       {topic?.title || entry.topicId}
@@ -151,7 +151,7 @@ export const MistakesPage: React.FC = () => {
                     <Badge variant={question.difficulty === 'beginner' ? 'success' : 'warning'} size="sm">
                       {question.difficulty}
                     </Badge>
-                    <span className="text-xs text-slate-400 font-mono">
+                    <span className="text-xs text-[#77736D] font-mono">
                       Failed {entry.incorrectAttempts}x • Solved later {entry.laterCorrectAttempts}x
                     </span>
                   </div>
@@ -166,7 +166,7 @@ export const MistakesPage: React.FC = () => {
                           isMarkedForRevision: entry.isUnderstood,
                         })
                       }
-                      icon={entry.isUnderstood ? <BookmarkX className="w-3.5 h-3.5" /> : <BookmarkCheck className="w-3.5 h-3.5 text-emerald-600" />}
+                      icon={entry.isUnderstood ? <BookmarkX className="w-3.5 h-3.5" /> : <BookmarkCheck className="w-3.5 h-3.5 text-[#287A52]" />}
                     >
                       <span className="text-xs">
                         {entry.isUnderstood ? 'Move to Active' : 'Mark as Understood'}
@@ -176,25 +176,25 @@ export const MistakesPage: React.FC = () => {
                 </div>
 
                 <div className="mt-4">
-                  <h4 className="text-base font-bold text-slate-900 dark:text-white">
+                  <h4 className="text-base font-semibold text-[#242424] dark:text-[#EAE6DF]">
                     {question.questionText}
                   </h4>
 
                   {question.codeSnippet && (
-                    <div className="mt-3 p-3 rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs whitespace-pre overflow-x-auto">
+                    <div className="mt-3 p-3 rounded-lg bg-[#242424] text-[#EBC0AF] font-mono text-xs whitespace-pre overflow-x-auto">
                       {question.codeSnippet}
                     </div>
                   )}
 
-                  <div className="mt-4 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                    <div className="font-semibold text-slate-900 dark:text-white mb-1 flex items-center gap-1.5">
-                      <BookOpen className="w-3.5 h-3.5 text-brand-500" />
+                  <div className="mt-4 p-3.5 rounded-lg bg-[#F3F1EC]/60 dark:bg-[#282623]/60 border border-[#E8E5DF] dark:border-[#2C2A26] text-xs text-[#242424] dark:text-[#EAE6DF] leading-relaxed">
+                    <div className="font-semibold mb-1 flex items-center gap-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-[#C96B45]" />
                       Correct Answer:
-                      <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold ml-1">
+                      <span className="font-mono text-[#287A52] font-semibold ml-1">
                         {Array.isArray(question.correctAnswer) ? question.correctAnswer.join(', ') : question.correctAnswer}
                       </span>
                     </div>
-                    <p>{question.explanation}</p>
+                    <p className="text-[#77736D]">{question.explanation}</p>
                   </div>
                 </div>
               </Card>

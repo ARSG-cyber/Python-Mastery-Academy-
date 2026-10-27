@@ -4,16 +4,38 @@
 
 @layer base {
   :root {
+    --background: #FAF9F6;
+    --surface: #FFFFFF;
+    --surface-muted: #F3F1EC;
+    --text-primary: #242424;
+    --text-secondary: #77736D;
+    --border: #E8E5DF;
+    --accent: #C96B45;
+    --success: #287A52;
+    --error: #B94B45;
     color-scheme: light;
   }
   .dark {
+    --background: #181715;
+    --surface: #1F1E1C;
+    --surface-muted: #282623;
+    --text-primary: #F3F1EC;
+    --text-secondary: #A8A49D;
+    --border: #2C2A26;
+    --accent: #DF9F84;
+    --success: #3BA472;
+    --error: #D6635D;
     color-scheme: dark;
   }
 
   html, body {
     margin: 0;
     padding: 0;
+    background-color: var(--background);
+    color: var(--text-primary);
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Custom subtle scrollbar */
@@ -25,11 +47,11 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(148, 163, 184, 0.4);
+    background: rgba(119, 115, 109, 0.25);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(148, 163, 184, 0.6);
+    background: rgba(119, 115, 109, 0.45);
   }
 }
 

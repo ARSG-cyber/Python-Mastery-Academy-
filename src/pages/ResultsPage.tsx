@@ -31,8 +31,8 @@ export const ResultsPage: React.FC = () => {
     if (attempt && attempt.accuracy >= 70) {
       try {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 50,
+          spread: 60,
           origin: { y: 0.6 },
         });
       } catch {
@@ -44,8 +44,8 @@ export const ResultsPage: React.FC = () => {
   if (!attempt) {
     return (
       <Card className="p-8 text-center space-y-4 max-w-lg mx-auto">
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white">No Quiz Result Found</h3>
-        <p className="text-sm text-slate-500">Take a quiz first to view results and analytics.</p>
+        <h3 className="text-lg font-semibold text-[#242424] dark:text-[#FAF9F6]">No Quiz Result Found</h3>
+        <p className="text-xs text-[#77736D]">Take a quiz first to view results and analytics.</p>
         <Button variant="primary" onClick={() => navigate('/quiz-setup')}>
           Start Practice Quiz
         </Button>
@@ -61,185 +61,208 @@ export const ResultsPage: React.FC = () => {
     }))
     .filter(item => item.question !== undefined);
 
-  // Retry only missed questions
+  // Helper to resolve answer ID to text
+  const resolveAnswerText = (q: any, answerVal: any): string => {
+    if (!answerVal) return 'None';
+    if (Array.isArray(answerVal)) {
+      return answerVal.map(val => {
+        const found = q.options?.find((o: any) => o.id === val || o.text === val || o === val);
+        return found ? (found.text || found) : val;
+      }).join(', ');
+    }
+    const found = q.options?.find((o: any) => o.id === answerVal || o.text === answerVal || o === answerVal);
+    return found ? (found.text || found) : String(answerVal);
+  };
+
   const handleRetryMissed = () => {
     if (missedQuestions.length === 0) return;
     navigate('/quiz-setup?mode=revision');
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-      {/* Hero Performance Banner */}
-      <div className="bg-gradient-to-br from-white via-slate-50 to-indigo-50/30 dark:from-slate-900 dark:via-[#0d152c] dark:to-[#131b36] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-sm text-center space-y-5">
-        <div className="w-16 h-16 rounded-3xl bg-amber-500/10 text-amber-500 mx-auto flex items-center justify-center shadow-inner">
-          <Trophy className="w-8 h-8 fill-amber-500/20" />
+    <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
+      {/* Clean Performance Card */}
+      <div className="bg-white dark:bg-[#1F1E1C] border border-[#E8E5DF] dark:border-[#2C2A26] rounded-xl p-6 sm:p-8 text-center space-y-4">
+        <div className="w-12 h-12 rounded-full bg-[#FAF0EB] text-[#C96B45] mx-auto flex items-center justify-center">
+          <Trophy className="w-6 h-6" />
         </div>
 
         <div>
-          <Badge variant="primary" size="md">
-            {attempt.mode.toUpperCase()} QUIZ COMPLETED
+          <Badge variant="primary" size="sm">
+            {attempt.mode.toUpperCase()} QUIZ
           </Badge>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-3">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-[#242424] dark:text-[#FAF9F6] mt-2">
             {attempt.accuracy >= 80
-              ? 'Outstanding Mastery!'
+              ? 'Excellent Performance'
               : attempt.accuracy >= 60
-              ? 'Great Effort, Solid Progress!'
-              : 'Learning in Progress!'}
+              ? 'Good Effort'
+              : 'Keep Practicing'}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto mt-1">
-            Review the breakdown below to inspect which Python concepts you nailed and where misconceptions occurred.
+          <p className="text-xs sm:text-sm text-[#77736D] dark:text-[#A8A49D] max-w-md mx-auto mt-1">
+            {attempt.accuracy >= 80
+              ? 'You demonstrated strong recall across the tested topics.'
+              : 'Review missed questions below to address misconceptions.'}
           </p>
         </div>
 
-        {/* Big Score Badges */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto pt-2">
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60">
-            <div className="text-xs text-slate-500 font-medium">Final Accuracy</div>
-            <div className={`text-2xl sm:text-3xl font-extrabold font-mono mt-1 ${
-              attempt.accuracy >= 80 ? 'text-emerald-500' : attempt.accuracy >= 60 ? 'text-brand-600' : 'text-rose-500'
+        {/* Statistics Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto pt-2">
+          <div className="p-3.5 rounded-lg border border-[#E8E5DF] dark:border-[#2C2A26] bg-[#FAF9F6] dark:bg-[#181715]">
+            <div className="text-xs text-[#77736D]">Accuracy</div>
+            <div className={`text-xl sm:text-2xl font-semibold font-mono mt-0.5 ${
+              attempt.accuracy >= 70 ? 'text-[#287A52]' : 'text-[#C96B45]'
             }`}>
               {attempt.accuracy}%
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60">
-            <div className="text-xs text-slate-500 font-medium">Correct</div>
-            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-500 mt-1">
-              {attempt.correctAnswers} <span className="text-xs font-normal text-slate-400">/ {attempt.totalQuestions}</span>
+          <div className="p-3.5 rounded-lg border border-[#E8E5DF] dark:border-[#2C2A26] bg-[#FAF9F6] dark:bg-[#181715]">
+            <div className="text-xs text-[#77736D]">Correct</div>
+            <div className="text-xl sm:text-2xl font-semibold font-mono text-[#287A52] mt-0.5">
+              {attempt.correctAnswers} <span className="text-xs font-normal text-[#77736D]">/ {attempt.totalQuestions}</span>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60">
-            <div className="text-xs text-slate-500 font-medium">Incorrect</div>
-            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-rose-500 mt-1">
+          <div className="p-3.5 rounded-lg border border-[#E8E5DF] dark:border-[#2C2A26] bg-[#FAF9F6] dark:bg-[#181715]">
+            <div className="text-xs text-[#77736D]">Incorrect</div>
+            <div className="text-xl sm:text-2xl font-semibold font-mono text-[#B94B45] mt-0.5">
               {attempt.incorrectAnswers}
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60">
-            <div className="text-xs text-slate-500 font-medium">Time Spent</div>
-            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-700 dark:text-slate-300 mt-1">
+          <div className="p-3.5 rounded-lg border border-[#E8E5DF] dark:border-[#2C2A26] bg-[#FAF9F6] dark:bg-[#181715]">
+            <div className="text-xs text-[#77736D]">Time Spent</div>
+            <div className="text-xl sm:text-2xl font-semibold font-mono text-[#242424] dark:text-[#FAF9F6] mt-0.5">
               {formatTime(attempt.timeSpentSeconds)}
             </div>
           </div>
         </div>
 
-        {/* Main CTA action buttons */}
-        <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
+        {/* Navigation CTAs */}
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
           {missedQuestions.length > 0 && (
             <Button
-              size="md"
-              variant="danger"
+              size="sm"
+              variant="outline"
               onClick={handleRetryMissed}
-              icon={<RotateCcw className="w-4 h-4" />}
+              icon={<RotateCcw className="w-3.5 h-3.5 text-[#C96B45]" />}
             >
-              Retry Missed Questions ({missedQuestions.length})
+              Retry Missed ({missedQuestions.length})
             </Button>
           )}
 
           <Button
-            size="md"
+            size="sm"
             variant="primary"
             onClick={() => navigate('/quiz-setup')}
-            icon={<Play className="w-4 h-4 fill-current" />}
+            icon={<Play className="w-3.5 h-3.5 fill-current" />}
           >
             Start Another Quiz
           </Button>
 
           <Button
-            size="md"
-            variant="outline"
+            size="sm"
+            variant="secondary"
             onClick={() => navigate('/')}
-            icon={<LayoutDashboard className="w-4 h-4" />}
+            icon={<LayoutDashboard className="w-3.5 h-3.5" />}
           >
-            Return to Dashboard
+            Dashboard
           </Button>
         </div>
       </div>
 
-      {/* Detailed Missed Questions Review */}
+      {/* Missed Questions Breakdown */}
       {missedQuestions.length > 0 ? (
         <div className="space-y-4">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <XCircle className="w-5 h-5 text-rose-500" />
-            <span>Missed Questions Breakdown & Explanations</span>
-          </h3>
+          <div className="flex items-center justify-between pb-2 border-b border-[#E8E5DF] dark:border-[#2C2A26]">
+            <h3 className="text-sm font-semibold text-[#242424] dark:text-[#FAF9F6] uppercase tracking-wider flex items-center gap-1.5">
+              <XCircle className="w-4 h-4 text-[#B94B45]" />
+              Missed Questions Breakdown
+            </h3>
+            <span className="text-xs text-[#77736D]">
+              {missedQuestions.length} to review
+            </span>
+          </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {missedQuestions.map(({ question, result }, index) => {
               const topic = TOPICS.find(t => t.id === question.topicId);
-              const selectedStr = Array.isArray(result.selectedAnswer)
-                ? result.selectedAnswer.join(', ')
-                : String(result.selectedAnswer || 'None');
-              const misconception = question.incorrectExplanations && question.incorrectExplanations[selectedStr];
+              const selectedDisplay = resolveAnswerText(question, result.selectedAnswer);
+              const misconception = question.incorrectExplanations && (
+                question.incorrectExplanations[selectedDisplay] ||
+                (typeof result.selectedAnswer === 'string' && question.incorrectExplanations[result.selectedAnswer])
+              );
 
               return (
-                <Card key={question.id} className="p-6 border-rose-200/80 dark:border-rose-950/60">
-                  <div className="flex items-center justify-between text-xs text-slate-500 pb-3 border-b border-slate-100 dark:border-slate-800">
-                    <span className="font-semibold text-rose-600 dark:text-rose-400">
-                      Missed Question #{index + 1} • {topic?.title || question.topicId}
+                <div
+                  key={question.id}
+                  className="p-5 rounded-xl border border-[#E8E5DF] dark:border-[#2C2A26] bg-white dark:bg-[#1F1E1C] space-y-3"
+                >
+                  <div className="flex items-center justify-between text-xs text-[#77736D]">
+                    <span className="font-medium text-[#C96B45]">
+                      Question #{index + 1} • {topic?.title || question.topicId}
                     </span>
                     <Badge variant={question.difficulty === 'beginner' ? 'success' : 'warning'} size="sm">
                       {question.difficulty}
                     </Badge>
                   </div>
 
-                  <div className="mt-4">
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white">
+                  <div>
+                    <h4 className="text-sm font-medium text-[#242424] dark:text-[#FAF9F6]">
                       {question.questionText}
                     </h4>
 
                     {question.codeSnippet && (
-                      <div className="mt-3 p-3 rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs whitespace-pre overflow-x-auto">
+                      <div className="mt-2.5 p-3 rounded-lg bg-[#FAF9F6] dark:bg-[#181715] border border-[#E8E5DF] dark:border-[#2C2A26] text-[#242424] dark:text-[#E8E5DF] font-mono text-xs whitespace-pre overflow-x-auto">
                         {question.codeSnippet}
                       </div>
                     )}
                   </div>
 
-                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                    <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40">
-                      <span className="font-semibold text-rose-700 dark:text-rose-300 block mb-0.5">Your Selected Answer:</span>
-                      <span className="font-mono text-slate-800 dark:text-slate-200">{selectedStr}</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <div className="p-2.5 rounded-lg bg-[#FBF0EF] dark:bg-[#301614]/30 border border-[#F2C5C3] dark:border-[#6B2824]">
+                      <span className="text-[11px] text-[#B94B45] block font-medium">Your Selection:</span>
+                      <span className="font-mono text-[#242424] dark:text-[#FAF9F6]">{selectedDisplay}</span>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40">
-                      <span className="font-semibold text-emerald-700 dark:text-emerald-300 block mb-0.5">Correct Answer:</span>
-                      <span className="font-mono text-slate-800 dark:text-slate-200">
+                    <div className="p-2.5 rounded-lg bg-[#EBF5F0] dark:bg-[#152E20]/30 border border-[#C3E4D4] dark:border-[#206342]">
+                      <span className="text-[11px] text-[#287A52] block font-medium">Correct Answer:</span>
+                      <span className="font-mono text-[#242424] dark:text-[#FAF9F6]">
                         {Array.isArray(question.correctAnswer) ? question.correctAnswer.join(', ') : question.correctAnswer}
                       </span>
                     </div>
                   </div>
 
                   {misconception && (
-                    <div className="mt-3 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 text-xs text-amber-950 dark:text-amber-200">
-                      <span className="font-semibold text-amber-800 dark:text-amber-300 flex items-center gap-1 mb-1">
+                    <div className="p-2.5 rounded-lg bg-[#FEF6EE] dark:bg-[#332012]/30 border border-[#F9DBAF] dark:border-[#7A3608] text-xs text-[#55514B] dark:text-[#E8E5DF]">
+                      <span className="font-semibold text-[#B54708] flex items-center gap-1 mb-0.5">
                         <Lightbulb className="w-3.5 h-3.5" />
-                        Misconception Behind Choice:
+                        Common misconception:
                       </span>
                       {misconception}
                     </div>
                   )}
 
-                  <div className="mt-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                    <span className="font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1 mb-1">
-                      <BookOpen className="w-3.5 h-3.5 text-brand-500" />
-                      Pedagogical Explanation:
+                  <div className="p-2.5 rounded-lg bg-[#FAF9F6] dark:bg-[#181715] border border-[#E8E5DF] dark:border-[#2C2A26] text-xs text-[#55514B] dark:text-[#A8A49D] leading-relaxed">
+                    <span className="font-semibold text-[#242424] dark:text-[#FAF9F6] flex items-center gap-1 mb-0.5">
+                      <BookOpen className="w-3.5 h-3.5 text-[#C96B45]" />
+                      Explanation:
                     </span>
                     {question.explanation}
                   </div>
-                </Card>
+                </div>
               );
             })}
           </div>
         </div>
       ) : (
-        <Card className="p-6 text-center bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50">
-          <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
-          <h4 className="text-base font-bold text-emerald-900 dark:text-emerald-200">
-            Zero Incorrect Answers!
+        <Card className="p-6 text-center border-[#C3E4D4] bg-[#EBF5F0]/50 dark:bg-[#152E20]/20">
+          <CheckCircle2 className="w-6 h-6 text-[#287A52] mx-auto mb-1.5" />
+          <h4 className="text-sm font-semibold text-[#287A52]">
+            All Answered Questions Correct!
           </h4>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-            You answered every single attempted question accurately. Outstanding execution!
+          <p className="text-xs text-[#55514B] dark:text-[#A8A49D] mt-0.5">
+            You answered every attempted question accurately.
           </p>
         </Card>
       )}
